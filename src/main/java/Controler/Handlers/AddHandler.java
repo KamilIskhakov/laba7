@@ -7,7 +7,9 @@ import Controler.Command;
 import Exceptions.NotCorrectException;
 import lombok.Setter;
 
-public class AddHandler implements Handler{
+import java.io.Serializable;
+
+public class AddHandler implements Handler {
     private Person person;
     private Command command;
 

@@ -4,13 +4,14 @@ package CollectionObjects;
 import Client.Main;
 import jakarta.xml.bind.annotation.*;
 
+import java.io.Serializable;
 import java.util.Date;
 
 // если используете джакарту для парсинга в xml, учтите, что порядок геттеров для нанесения ярлыков важен,
 // он такой же, как в xmltype, а также в том же порядке напишите сеттеры!
 @XmlRootElement(name = "person")
 @XmlType(propOrder = {"name", "coordinates", "height", "weight", "eyeColor", "nationality", "location", "id", "creationDate"})
-public class Person implements Comparable<Location> {
+public class Person implements Comparable<Location>, Serializable {
     private String name; //no null
     private Coordinates coordinates; //no null
     private Integer height;

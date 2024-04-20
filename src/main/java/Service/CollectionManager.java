@@ -1,4 +1,4 @@
-package DAO;
+package Service;
 
 import Client.Main;
 import CollectionObjects.Location;

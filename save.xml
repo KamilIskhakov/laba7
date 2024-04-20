@@ -17,6 +17,23 @@
             <name>Lubatovo</name>
         </location>
     </person>
+    <person id="2" creationDate="2024-04-20T11:58:39.624+03:00">
+        <name>ebaa</name>
+        <coordinates>
+            <x>1.0</x>
+            <y>4.0</y>
+        </coordinates>
+        <height>8</height>
+        <weight>8.0</weight>
+        <eyeColor>BLACK</eyeColor>
+        <nationality>FRANCE</nationality>
+        <location>
+            <x>2</x>
+            <y>1.0</y>
+            <z>96.0</z>
+            <name>Kukuha</name>
+        </location>
+    </person>
     <dateOfInitialization>2024-04-19T10:20:31.407+03:00</dateOfInitialization>
     <filePath>save.xml</filePath>
 </personList>

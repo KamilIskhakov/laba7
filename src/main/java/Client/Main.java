@@ -1,13 +1,9 @@
 package Client;
 
 import Controler.CommandRequestManager;
-import Controler.TerminalInput;
-import Controler.TerminalManager;
-import Controler.TerminalOutputManager;
-import DAO.CollectionManager;
-
-import java.util.LinkedList;
-import java.util.Queue;
+import Controler.Terminal.TerminalInput;
+import Controler.Terminal.TerminalManager;
+import Controler.Terminal.TerminalOutputManager;
 
 import Service.*;
 
@@ -17,6 +13,7 @@ public class Main {
     public static ServerEntryPoint serverEntryPoint;
     public static TerminalInput terminalInput;
     public static TerminalManager terminalManager;
+
     public static void main(String[] args) {
         serverEntryPoint = new ServerEntryPoint();
         terminalOutputManager = new TerminalOutputManager(System.out);
@@ -25,5 +22,6 @@ public class Main {
         terminalManager = new TerminalManager(commandRequestManager, terminalInput, terminalOutputManager);
         terminalManager.start();
     }
-
 }
+
+

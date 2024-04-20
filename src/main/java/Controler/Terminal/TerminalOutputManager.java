@@ -1,4 +1,4 @@
-package Controler;
+package Controler.Terminal;
 
 import java.awt.*;
 import java.io.IOException;

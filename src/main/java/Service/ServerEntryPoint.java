@@ -1,7 +1,6 @@
 package Service;
 
 import Controler.Handlers.Handler;
-import DAO.CollectionManager;
 
 public class ServerEntryPoint {
     public static CollectionManager collectionManager;

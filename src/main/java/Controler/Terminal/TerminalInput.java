@@ -1,15 +1,12 @@
-package Controler;
+package Controler.Terminal;
 
 import Client.Main;
 
-import java.awt.*;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayDeque;
 import java.util.Scanner;
-import java.util.Stack;
 
 public class TerminalInput {
     private InputStream inputStream;

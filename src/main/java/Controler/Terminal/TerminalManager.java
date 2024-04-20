@@ -1,8 +1,9 @@
-package Controler;
+package Controler.Terminal;
 
 import Client.Main;
 import CollectionObjects.Coordinates;
 import CollectionObjects.Person;
+import Controler.CommandRequestManager;
 import Exceptions.NotCorrectException;
 import com.github.drapostolos.typeparser.TypeParser;
 import com.github.drapostolos.typeparser.TypeParserException;

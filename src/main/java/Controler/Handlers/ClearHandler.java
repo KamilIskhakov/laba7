@@ -5,7 +5,9 @@ import Controler.Commands.ClearCommand;
 import Controler.Commands.InfoCommand;
 import Exceptions.NotCorrectException;
 
-public class ClearHandler implements Handler{
+import java.io.Serializable;
+
+public class ClearHandler implements Handler {
     private Command command;
     @Override
     public void handle(String args) throws NotCorrectException {

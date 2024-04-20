@@ -10,6 +10,7 @@ public class AddCommand implements Command {
     public AddCommand(Person person){
         this.person = person;
     }
+
     @Override
     public String getDescription() {
         return getName() + "добавляет новый объект в конец коллекции";
