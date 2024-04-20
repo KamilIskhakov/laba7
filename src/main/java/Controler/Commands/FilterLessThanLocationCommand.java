@@ -2,7 +2,7 @@ package Controler.Commands;
 
 import CollectionObjects.Location;
 import Controler.Command;
-import Service.ServerEntryPoint;
+import Server.ServerEntryPoint;
 
 public class FilterLessThanLocationCommand implements Command {
     private Location location;

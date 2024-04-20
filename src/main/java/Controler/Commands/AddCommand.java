@@ -2,7 +2,9 @@ package Controler.Commands;
 
 import CollectionObjects.Person;
 import Controler.Command;
-import Service.ServerEntryPoint;
+import Controler.RequestToServer.ExecuteCode;
+import Controler.RequestToServer.ServerResponse;
+import Server.ServerEntryPoint;
 
 public class AddCommand implements Command {
     private Person person;
@@ -22,7 +24,8 @@ public class AddCommand implements Command {
     }
 
     @Override
-    public void execute(){
+    public ServerResponse execute(){
         ServerEntryPoint.collectionManager.addToCollection(person);
+        return new ServerResponse(ExecuteCode.SUCCESS);
     }
 }

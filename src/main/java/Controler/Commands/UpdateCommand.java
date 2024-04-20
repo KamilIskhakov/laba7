@@ -2,7 +2,7 @@ package Controler.Commands;
 
 import CollectionObjects.Person;
 import Controler.Command;
-import Service.ServerEntryPoint;
+import Server.ServerEntryPoint;
 
 public class UpdateCommand implements Command {
     private Integer argument;

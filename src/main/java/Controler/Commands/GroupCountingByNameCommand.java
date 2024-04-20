@@ -2,7 +2,7 @@ package Controler.Commands;
 
 import Client.Main;
 import Controler.Command;
-import Service.ServerEntryPoint;
+import Server.ServerEntryPoint;
 
 public class GroupCountingByNameCommand implements Command {
 

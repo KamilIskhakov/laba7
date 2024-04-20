@@ -1,11 +1,11 @@
 package Client;
 
 import Controler.CommandRequestManager;
-import Controler.Terminal.TerminalInput;
-import Controler.Terminal.TerminalManager;
-import Controler.Terminal.TerminalOutputManager;
+import Client.Terminal.TerminalInput;
+import Client.Terminal.TerminalManager;
+import Client.Terminal.TerminalOutputManager;
 
-import Service.*;
+import Server.*;
 
 public class Main {
     public static boolean script = false;

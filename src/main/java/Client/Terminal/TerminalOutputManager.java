@@ -1,10 +1,8 @@
-package Controler.Terminal;
+package Client.Terminal;
 
 import java.awt.*;
 import java.io.IOException;
 import java.io.OutputStream;
-
-import static java.awt.Color.RED;
 
 public class TerminalOutputManager {
     private final OutputStream outputStream;

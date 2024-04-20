@@ -1,9 +1,8 @@
-package Service;
+package Server;
 
 import Client.Main;
 import CollectionObjects.Location;
 import CollectionObjects.Person;
-import Service.ToXML;
 import jakarta.xml.bind.annotation.*;
 
 import java.util.*;

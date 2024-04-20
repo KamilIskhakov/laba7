@@ -1,4 +1,4 @@
-package Controler.Terminal;
+package Client.Terminal;
 
 import Client.Main;
 import CollectionObjects.Coordinates;

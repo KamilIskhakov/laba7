@@ -1,7 +1,7 @@
 package Controler.Commands;
 
 import Controler.Command;
-import Service.ServerEntryPoint;
+import Server.ServerEntryPoint;
 
 public class ClearCommand implements Command {
 

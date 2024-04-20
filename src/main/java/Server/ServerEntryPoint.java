@@ -1,4 +1,4 @@
-package Service;
+package Server;
 
 import Controler.Handlers.Handler;
 
