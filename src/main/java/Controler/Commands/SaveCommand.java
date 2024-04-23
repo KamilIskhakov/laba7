@@ -1,7 +1,9 @@
 package Controler.Commands;
 
 import Controler.Command;
-import Server.ServerEntryPoint;
+import Controler.RequestToServer.ExecuteCode;
+import Controler.RequestToServer.ServerResponse;
+import Server.Server;
 
 public class SaveCommand implements Command {
 
@@ -16,7 +18,8 @@ public class SaveCommand implements Command {
     }
 
     @Override
-    public void execute() {
-        ServerEntryPoint.collectionManager.save();
+    public ServerResponse execute() {
+        Server.collectionManager.save();
+        return new ServerResponse(ExecuteCode.SUCCESS);
     }
 }

@@ -1,6 +1,5 @@
 package Server;
 
-import Client.Client;
 import CollectionObjects.Location;
 import CollectionObjects.Person;
 import Server.Parser.ToXML;
@@ -43,9 +42,7 @@ public class CollectionManager {
     }
 
     public void removeCollectionById(Integer id) {
-        for (Person person : personcollection)
-            if (Objects.equals(person.getId(), id))
-                personcollection.remove(person);
+        personcollection.removeIf(person -> Objects.equals(person.getId(), id));
     }
 
     public void removeHead() {
@@ -76,33 +73,38 @@ public class CollectionManager {
         return countName;
     }
 
-    public void FilterGreaterThanHeight(Integer height) {
+    public String FilterGreaterThanHeight(Integer height) {
+        String s = "";
         Object[] arrayObjectPeople = personcollection.toArray();
         Person[] arrayPeople = new Person[arrayObjectPeople.length];
         for (int i = 0; i < arrayPeople.length; i++) {
             arrayPeople[i] = (Person) arrayObjectPeople[i];
             if (arrayPeople[i].getHeight() > height) {
-                Client.terminalOutputManager.print(arrayPeople[i].getName() + " ");
+                s += arrayPeople[i].getName() + "\n ";
             }
         }
+        return s;
     }
 
-    public void FilterLessThanLocation(Location location) {
+    public String FilterLessThanLocation(Location location) {
+        String s = "";
         Object[] arrayObjectPeople = personcollection.toArray();
         Person[] arrayPeople = new Person[arrayObjectPeople.length];
         for (int i = 0; i < arrayPeople.length; i++) {
             arrayPeople[i] = (Person) arrayObjectPeople[i];
             if (arrayPeople[i].compareTo(location) < 0) {
-                Client.terminalOutputManager.print(arrayPeople[i].getName() + " ");
+                s += arrayPeople[i].getName() + "\n ";
             }
         }
+        return s;
     }
 
-    public void showCollection() {
+    public String showCollection() {
+        String s = "";
         for (Person person : personcollection) {
-            Client.terminalOutputManager.print(person.getName() + " ");
+            s += person.getName() + " ";
         }
-        Client.terminalOutputManager.println(" ");
+        return s + " ";
     }
 
     public void update(Person userPerson, Integer id) {
@@ -142,6 +144,4 @@ public class CollectionManager {
                 + "Date of initialization: " + dateOfInitialization + "\n"
                 + "Collection size: " + personcollection.size();
     }
-
-
 }

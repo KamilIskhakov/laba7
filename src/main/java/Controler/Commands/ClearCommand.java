@@ -1,7 +1,9 @@
 package Controler.Commands;
 
 import Controler.Command;
-import Server.ServerEntryPoint;
+import Controler.RequestToServer.ExecuteCode;
+import Controler.RequestToServer.ServerResponse;
+import Server.Server;
 
 public class ClearCommand implements Command {
 
@@ -16,7 +18,9 @@ public class ClearCommand implements Command {
     }
 
     @Override
-    public void execute() {
-        ServerEntryPoint.collectionManager.clear();
+    public ServerResponse execute() {
+        Server.collectionManager.clear();
+        return new ServerResponse(ExecuteCode.SUCCESS);
     }
+
 }

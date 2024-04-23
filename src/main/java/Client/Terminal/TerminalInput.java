@@ -11,9 +11,9 @@ import java.util.Scanner;
 public class TerminalInput {
     private InputStream inputStream;
     ArrayDeque<String[]> scriptBox = new ArrayDeque<>();
-    private final TerminalOutputManager outputManager;
+    private final TerminalOutput outputManager;
 
-    public TerminalInput(InputStream inputStream, TerminalOutputManager outputManager) {
+    public TerminalInput(InputStream inputStream, TerminalOutput outputManager) {
         this.inputStream = inputStream;
         this.outputManager = outputManager;
     }

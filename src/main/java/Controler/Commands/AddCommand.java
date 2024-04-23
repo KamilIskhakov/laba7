@@ -5,7 +5,6 @@ import Controler.Command;
 import Controler.RequestToServer.ExecuteCode;
 import Controler.RequestToServer.ServerResponse;
 import Server.Server;
-import Server.ServerEntryPoint;
 
 public class AddCommand implements Command {
     private Person person;

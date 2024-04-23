@@ -1,7 +1,9 @@
 package Controler.Commands;
 
 import Controler.Command;
-import Server.ServerEntryPoint;
+import Controler.RequestToServer.ExecuteCode;
+import Controler.RequestToServer.ServerResponse;
+import Server.Server;
 
 public class RemoveByIdCommand implements Command {
     private Integer argument;
@@ -19,7 +21,8 @@ public class RemoveByIdCommand implements Command {
     }
 
     @Override
-    public void execute() {
-        ServerEntryPoint.collectionManager.removeCollectionById(argument);
+    public ServerResponse execute() {
+        Server.collectionManager.removeCollectionById(argument);
+        return new ServerResponse(ExecuteCode.SUCCESS);
     }
 }

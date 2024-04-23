@@ -2,7 +2,9 @@ package Controler.Commands;
 
 import Client.Client;
 import Controler.Command;
-import Server.ServerEntryPoint;
+import Controler.RequestToServer.ExecuteCode;
+import Controler.RequestToServer.ServerResponse;
+import Server.Server;
 
 public class GroupCountingByNameCommand implements Command {
 
@@ -17,12 +19,16 @@ public class GroupCountingByNameCommand implements Command {
     }
 
     @Override
-    public void execute() {
-            int count = 0;
-        for(int i : ServerEntryPoint.collectionManager.GroupPeople())   {
+    public ServerResponse execute() {
+        String s = "";
+        int count = 0;
+        for(int i : Server.collectionManager.GroupPeople())   {
             if (i>0){
-            Client.terminalOutputManager.println("Группа имён с длинной " + count + ": " + i);}
+            s += "Группа имён с длинной " + count + ": " + i + "\n";
             count += 1;
             }
+        }
+        return new ServerResponse(s,ExecuteCode.VALUE);
     }
+
 }

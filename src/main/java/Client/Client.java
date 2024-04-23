@@ -3,7 +3,7 @@ package Client;
 import Controler.CommandRequestManager;
 import Client.Terminal.TerminalInput;
 import Client.Terminal.TerminalManager;
-import Client.Terminal.TerminalOutputManager;
+import Client.Terminal.TerminalOutput;
 
 import Controler.RequestToServer.Checker;
 import Exceptions.IllegalAddressException;
@@ -17,7 +17,7 @@ import java.nio.channels.DatagramChannel;
 
 public class Client {
     public static boolean script = false;
-    public static TerminalOutputManager terminalOutputManager;
+    public static TerminalOutput terminalOutput;
     public static TerminalInput terminalInput;
     public static TerminalManager terminalManager;
     public static ClientToSend clientToSend;
@@ -27,24 +27,24 @@ public class Client {
     private static final int NUMBER_OF_ARGUMENTS = 2;
 
     public static void main(String[] args) {
-        terminalOutputManager = new TerminalOutputManager(System.out);
-        terminalInput = new TerminalInput(System.in, terminalOutputManager);
+        terminalOutput = new TerminalOutput(System.out);
+        terminalInput = new TerminalInput(System.in, terminalOutput);
         if (args.length == NUMBER_OF_ARGUMENTS) {
             try (DatagramChannel client = DatagramChannel.open()) {
                 InetSocketAddress serverAddress = Checker.checkAddress(args[0], args[1]);
                 client.bind(null).configureBlocking(false);
-                clientToSend = new ClientToSend(client, serverAddress, TIMEOUT, BUFFER_SIZE, RECONNECTION_ATTEMPTS, terminalOutputManager);
+                clientToSend = new ClientToSend(client, serverAddress, TIMEOUT, BUFFER_SIZE, RECONNECTION_ATTEMPTS, terminalOutput);
                 CommandRequestManager commandRequestManager = new CommandRequestManager();
-                terminalManager = new TerminalManager(commandRequestManager, terminalInput, terminalOutputManager);
+                terminalManager = new TerminalManager(commandRequestManager, terminalInput, terminalOutput);
                 terminalManager.start();
             } catch (InvalidInputException | NoConnectionException | IllegalAddressException e) {
-                terminalOutputManager.printlnImportantColorMessage(e.getMessage(), Color.RED);
+                terminalOutput.printlnImportantColorMessage(e.getMessage(), Color.RED);
             } catch (IOException | ClassNotFoundException | InterruptedException e) {
-                terminalOutputManager.printlnImportantColorMessage("error during connection:", Color.RED);
+                terminalOutput.printlnImportantColorMessage("error during connection:", Color.RED);
                 e.printStackTrace();
             }
         } else {
-            terminalOutputManager.printlnImportantColorMessage("please enter a server hostname and port as a command "
+            terminalOutput.printlnImportantColorMessage("please enter a server hostname and port as a command "
                     + "line arguments", Color.RED);
         }
 

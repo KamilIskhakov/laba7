@@ -2,6 +2,9 @@ package Controler.Commands;
 
 import Client.Client;
 import Controler.Command;
+import Controler.RequestToServer.ExecuteCode;
+import Controler.RequestToServer.ServerResponse;
+import Server.Server;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -19,7 +22,7 @@ public class HelpCommand implements Command {
     }
 
     @Override
-    public void execute() {
+    public ServerResponse  execute() {
         ArrayList<String[]> help_out = new ArrayList<>();
         File directory = new File("src/main/java/Controler/Commands"); //ссылка папку, в которой хранятся все команды
         String[] commandClasses = directory.list(); //массив из названий всех элементов в папке
@@ -42,6 +45,6 @@ public class HelpCommand implements Command {
         for (String[] comhelp : help_out) {
             output += "   " + comhelp[0] + " : " + comhelp[1] + "\n";
         }
-        Client.terminalOutputManager.println(output);
+        return new ServerResponse(output,ExecuteCode.VALUE);
     }
 }

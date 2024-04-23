@@ -33,7 +33,7 @@ public class CommandRequestManager {
             handler.handle(arguments);
             return handler;
         } catch (NullPointerException | NotCorrectException exp) {
-            Client.terminalOutputManager.println("Некорректный ввод команды");
+            Client.terminalOutput.println("Некорректный ввод команды");
         }
         return null;
     }

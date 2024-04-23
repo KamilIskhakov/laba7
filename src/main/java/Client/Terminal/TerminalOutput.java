@@ -4,10 +4,10 @@ import java.awt.*;
 import java.io.IOException;
 import java.io.OutputStream;
 
-public class TerminalOutputManager {
+public class TerminalOutput {
     private final OutputStream outputStream;
 
-    public TerminalOutputManager(OutputStream outputStream) {
+    public TerminalOutput(OutputStream outputStream) {
         this.outputStream = outputStream;
     }
 

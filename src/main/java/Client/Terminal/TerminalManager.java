@@ -5,6 +5,8 @@ import CollectionObjects.Coordinates;
 import CollectionObjects.Person;
 import Controler.CommandRequestManager;
 import Controler.Handlers.Handler;
+import Controler.RequestToServer.ExecuteCode;
+import Controler.RequestToServer.ServerResponse;
 import Exceptions.InvalidInputException;
 import Exceptions.NoConnectionException;
 import Exceptions.NotCorrectException;
@@ -17,10 +19,10 @@ import java.io.IOException;
 public class TerminalManager {
     private final CommandRequestManager commandRequestManager;
     private final TerminalInput inputManager;
-    private final TerminalOutputManager outputManager;
+    private final TerminalOutput outputManager;
     private final TypeParser parser;
 
-    public TerminalManager(CommandRequestManager commandRequestManager, TerminalInput inputManager, TerminalOutputManager outputManager) {
+    public TerminalManager(CommandRequestManager commandRequestManager, TerminalInput inputManager, TerminalOutput outputManager) {
         this.commandRequestManager = commandRequestManager;
         this.inputManager = inputManager;
         this.outputManager = outputManager;
@@ -35,7 +37,8 @@ public class TerminalManager {
                     if (!inputManager.scriptBox.isEmpty()) {
                         String[] readLine = inputManager.scriptBox.pop();
                         Handler handler = commandRequestManager.preparationForShipment(readLine[0], readLine[1]);
-                        Client.clientToSend.send(handler);
+                        ServerResponse response = (ServerResponse) Client.clientToSend.send(handler);
+                        processServerResponse(response);
                     } else {
                         Client.script = false;
                     }
@@ -49,6 +52,27 @@ public class TerminalManager {
             }
         }
     }
+    public void processServerResponse(ServerResponse serverResponse) {
+        ExecuteCode executeCode = serverResponse.getExecuteCode();
+        switch (executeCode) {
+            case SUCCESS:
+                outputManager.printlnColorMessage(executeCode.getMessage(), java.awt.Color.GREEN);
+                break;
+            case VALUE:
+                outputManager.printlnImportantMessage(executeCode.getMessage());
+                outputManager.printlnImportantMessage(serverResponse.getMessage());
+                break;
+            case READ_SCRIPT:
+                Client.terminalInput.readScript(serverResponse.getMessage());
+                break;
+            case EXIT:
+                outputManager.printlnImportantColorMessage(executeCode.getMessage(), java.awt.Color.RED);
+                System.exit(0);
+            default:
+                outputManager.printlnImportantColorMessage("incorrect server's response...", java.awt.Color.RED);
+        }
+    }
+
 
     public <T> T getAsk(String messageWellDone, Class<T> type) {
         if (Client.script) {
@@ -157,20 +181,24 @@ public class TerminalManager {
     public Person MakeMePerson() {
         return
                 new Person.PersonBuilder(getAsk("введите имя:", String.class),
-                        new Coordinates.CoordinatesBuilder(getAsk("введите икс:", Float.class), getAsk("введите игрик:", Float.class)).build(),
-                        getAsk("введите вес:", Double.class), getCountryAsk("введи страну:"))
-                        .setColor(getColorAsk("введи цвет:"))
-                        .setHeight(getAsk("введи рост:", Integer.class))
-                        .setLocation(new Location.LocationBuilder(getAsk("введи название места:", String.class), getAsk("введите икс", Float.class))
-                                .setX(getAsk("введите игрик:", Integer.class))
-                                .setZ(getAsk("введите зет:", Double.class)).build()).build();
+                new Coordinates.CoordinatesBuilder(getAsk("введите икс:", Float.class),
+                getAsk("введите игрик:", Float.class)).build(),
+                getAsk("введите вес:", Double.class),
+                getCountryAsk("введи страну:"))
+                .setColor(getColorAsk("введи цвет:"))
+                .setHeight(getAsk("введите рост:", Integer.class))
+                .setLocation(new Location.LocationBuilder(getAsk("введите название места:", String.class),
+                 getAsk("введите икс", Float.class))
+                .setX(getAsk("введите игрик:", Integer.class))
+                .setZ(getAsk("введите зет:", Double.class)).build()).build();
     }
 
     public Location MakeMeLocation() {
         return
-                new Location.LocationBuilder(getAsk("введи название места:", String.class), getAsk("введите икс", Float.class))
-                        .setX(getAsk("введите игрик:", Integer.class))
-                        .setZ(getAsk("введите зет:", Double.class)).build();
+                new Location.LocationBuilder(getAsk("введите название места:", String.class),
+                getAsk("введите икс", Float.class))
+                .setX(getAsk("введите игрик:", Integer.class))
+                .setZ(getAsk("введите зет:", Double.class)).build();
     }
 
 }

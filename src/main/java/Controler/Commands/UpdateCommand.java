@@ -2,7 +2,9 @@ package Controler.Commands;
 
 import CollectionObjects.Person;
 import Controler.Command;
-import Server.ServerEntryPoint;
+import Controler.RequestToServer.ExecuteCode;
+import Controler.RequestToServer.ServerResponse;
+import Server.Server;
 
 public class UpdateCommand implements Command {
     private Integer argument;
@@ -22,7 +24,8 @@ public class UpdateCommand implements Command {
     }
 
     @Override
-    public void execute() {
-        ServerEntryPoint.collectionManager.update(person,argument);
+    public ServerResponse execute() {
+        Server.collectionManager.update(person,argument);
+        return new ServerResponse(ExecuteCode.VALUE);
     }
 }

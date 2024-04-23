@@ -1,7 +1,9 @@
 package Controler.Commands;
 
 import Controler.Command;
-import Server.ServerEntryPoint;
+import Controler.RequestToServer.ExecuteCode;
+import Controler.RequestToServer.ServerResponse;
+import Server.Server;
 
 public class FilterGreaterThanHeightCommand implements Command {
     private Integer argument;
@@ -19,7 +21,8 @@ public class FilterGreaterThanHeightCommand implements Command {
     }
 
     @Override
-    public void execute() {
-        ServerEntryPoint.collectionManager.FilterGreaterThanHeight(argument);
+    public ServerResponse execute() {
+        return new ServerResponse(Server.collectionManager.FilterGreaterThanHeight(argument),ExecuteCode.VALUE);
     }
+
 }

@@ -1,6 +1,9 @@
 package Controler.Commands;
 
 import Controler.Command;
+import Controler.RequestToServer.ExecuteCode;
+import Controler.RequestToServer.ServerResponse;
+import Server.Server;
 
 public class ExitCommand implements Command {
     @Override
@@ -14,7 +17,8 @@ public class ExitCommand implements Command {
     }
 
     @Override
-    public void execute() {
-        System.exit(0);
+    public ServerResponse execute() {
+        new SaveCommand();
+        return new ServerResponse(ExecuteCode.EXIT);
     }
 }

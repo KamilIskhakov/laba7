@@ -2,7 +2,9 @@ package Controler.Commands;
 
 import Client.Client;
 import Controler.Command;
-import Server.ServerEntryPoint;
+import Controler.RequestToServer.ExecuteCode;
+import Controler.RequestToServer.ServerResponse;
+import Server.Server;
 
 public class HeadCommand implements Command {
     @Override
@@ -16,7 +18,8 @@ public class HeadCommand implements Command {
     }
 
     @Override
-    public void execute() {
-      Client.terminalOutputManager.println(ServerEntryPoint.collectionManager.showHead());
+    public ServerResponse execute() {
+        return new ServerResponse(Server.collectionManager.showHead(),ExecuteCode.VALUE);
     }
+
 }

@@ -2,6 +2,8 @@ package Controler.Commands;
 
 import Client.Client;
 import Controler.Command;
+import Controler.RequestToServer.ExecuteCode;
+import Controler.RequestToServer.ServerResponse;
 
 public class ExecuteScriptCommand implements Command {
     private String filepath;
@@ -19,7 +21,9 @@ public class ExecuteScriptCommand implements Command {
     }
 
     @Override
-    public void execute() {
-        Client.terminalInput.readScript(filepath);
+    public ServerResponse execute() {
+        return new ServerResponse(filepath,ExecuteCode.READ_SCRIPT);
     }
+
+
 }

@@ -2,7 +2,9 @@ package Controler.Commands;
 
 import CollectionObjects.Location;
 import Controler.Command;
-import Server.ServerEntryPoint;
+import Controler.RequestToServer.ExecuteCode;
+import Controler.RequestToServer.ServerResponse;
+import Server.Server;
 
 public class FilterLessThanLocationCommand implements Command {
     private Location location;
@@ -21,7 +23,8 @@ public class FilterLessThanLocationCommand implements Command {
     }
 
     @Override
-    public void execute() {
-        ServerEntryPoint.collectionManager.FilterLessThanLocation(location);
+    public ServerResponse execute() {
+        return new ServerResponse(Server.collectionManager.FilterLessThanLocation(location),ExecuteCode.VALUE);
     }
+
 }

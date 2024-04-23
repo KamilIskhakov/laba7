@@ -1,15 +1,12 @@
 package Client;
 
-import Client.Terminal.TerminalOutputManager;
+import Client.Terminal.TerminalOutput;
 import Controler.Handlers.Handler;
-import Controler.RequestToServer.ServerResponse;
 import Exceptions.NoConnectionException;
-import org.apache.logging.log4j.Logger;
 import Controler.RequestToServer.*;
 
 import java.awt.*;
 import java.io.IOException;
-import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
 import java.nio.channels.DatagramChannel;
@@ -20,10 +17,10 @@ public class ClientToSend {
     private final int bufferSize;
     private final int timeout;
     private final int reconnectionAttempts;
-    private final TerminalOutputManager outputManager;
+    private final TerminalOutput outputManager;
 
     public ClientToSend(DatagramChannel client, InetSocketAddress serverAddress, int timeout, int bufferSize,
-                     int reconnectionAttempts, TerminalOutputManager outputManager) {
+                     int reconnectionAttempts, TerminalOutput outputManager) {
         this.client = client;
         this.serverAddress = serverAddress;
         this.timeout = timeout;
