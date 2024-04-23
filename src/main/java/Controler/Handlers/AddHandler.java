@@ -1,14 +1,10 @@
 package Controler.Handlers;
 
-import Client.Main;
+import Client.Client;
 import CollectionObjects.Person;
 import Controler.Commands.AddCommand;
 import Controler.Command;
-import Controler.RequestToServer.ExecuteCode;
 import Exceptions.NotCorrectException;
-import lombok.Setter;
-
-import java.io.Serializable;
 
 public class AddHandler implements Handler {
     private Person person;
@@ -21,7 +17,7 @@ public class AddHandler implements Handler {
     @Override
     public void handle(String args) throws NotCorrectException {
         if (args == ""){
-            this.person = Main.terminalManager.MakeMePerson();
+            this.person = Client.terminalManager.MakeMePerson();
             CreateCommand();
         }else{
             throw new NotCorrectException();

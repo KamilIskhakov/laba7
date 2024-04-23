@@ -1,5 +1,6 @@
-package Server;
+package Server.Parser;
 
+import Server.CollectionManager;
 import jakarta.xml.bind.JAXBContext;
 import jakarta.xml.bind.JAXBException;
 import jakarta.xml.bind.Marshaller;

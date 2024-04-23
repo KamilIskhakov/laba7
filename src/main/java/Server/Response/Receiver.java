@@ -6,18 +6,19 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 
 import Controler.CommandRequestManager;
+import Controler.Handlers.Handler;
+import Controler.RequestToServer.ExecuteCode;
 import Controler.RequestToServer.Serializer;
+import Controler.RequestToServer.ServerResponse;
 import jakarta.xml.bind.JAXBException;
 import org.apache.logging.log4j.Logger;
 
 public class Receiver {
     private final int bufferSize;
-    private final CommandRequestManager commandManager;
     private final DatagramSocket server;
     private final Logger logger;
 
-    public Receiver(CommandRequestManager commandManager, DatagramSocket server, int bufferSize, Logger logger) {
-        this.commandManager = commandManager;
+    public Receiver(DatagramSocket server, int bufferSize, Logger logger) {
         this.server = server;
         this.bufferSize = bufferSize;
         this.logger = logger;
@@ -27,32 +28,11 @@ public class Receiver {
         byte[] bytesReceiving = new byte[bufferSize];
         DatagramPacket request = new DatagramPacket(bytesReceiving, bytesReceiving.length);
         server.receive(request);
-        Object received = Serializer.deserialize(bytesReceiving);
+        Handler received = (Handler) Serializer.deserialize(bytesReceiving);
         InetAddress client = request.getAddress();
         int port = request.getPort();
         logger.info("received request from address " + client + ", port " + port);
-        Object response;
-        if (received instanceof PullingRequest) {
-            response = new PullingResponse(commandManager.getRequirements());
-        } else {
-            ClientRequest clientRequest = (ClientRequest) received;
-            String inputCommand = clientRequest.getCommandName();
-            String argument = clientRequest.getCommandArguments();
-            Object objectArgument = clientRequest.getObjectArgument();
-            if (commandManager.getCommands().containsKey(inputCommand)) {
-                Command command = commandManager.getCommands().get(inputCommand);
-                try {
-                    response = command.execute(argument, objectArgument);
-                    commandManager.getSaveCommand().execute("", null);
-                } catch (InvalidCommandArguments | IllegalKeyException e) {
-                    response = new ServerResponse(e.getMessage(), ExecuteCode.ERROR);
-                } catch (JAXBException e) {
-                    response = new ServerResponse("Error during converting data to file", ExecuteCode.ERROR);
-                }
-            } else {
-                response = new ServerResponse("Unknown command detected: " + inputCommand, ExecuteCode.ERROR);
-            }
-        }
+        ServerResponse response = received.getCommand().execute();
         byte[] bytesSending = Serializer.serialize(response);
         DatagramPacket packet = new DatagramPacket(bytesSending, bytesSending.length, client, port);
         server.send(packet);

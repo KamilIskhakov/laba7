@@ -1,6 +1,6 @@
 package Controler.Commands;
 
-import Client.Main;
+import Client.Client;
 import Controler.Command;
 import Server.ServerEntryPoint;
 
@@ -21,7 +21,7 @@ public class GroupCountingByNameCommand implements Command {
             int count = 0;
         for(int i : ServerEntryPoint.collectionManager.GroupPeople())   {
             if (i>0){
-            Main.terminalOutputManager.println("Группа имён с длинной " + count + ": " + i);}
+            Client.terminalOutputManager.println("Группа имён с длинной " + count + ": " + i);}
             count += 1;
             }
     }

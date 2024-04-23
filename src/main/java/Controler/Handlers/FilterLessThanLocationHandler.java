@@ -1,10 +1,8 @@
 package Controler.Handlers;
 
-import Client.Main;
+import Client.Client;
 import CollectionObjects.Location;
-import CollectionObjects.Person;
 import Controler.Command;
-import Controler.Commands.AddCommand;
 import Controler.Commands.FilterLessThanLocationCommand;
 import Exceptions.NotCorrectException;
 
@@ -19,7 +17,7 @@ public class FilterLessThanLocationHandler implements Handler{
     @Override
     public void handle(String args) throws NotCorrectException {
         if (args == ""){
-            this.location = Main.terminalManager.MakeMeLocation();
+            this.location = Client.terminalManager.MakeMeLocation();
             CreateCommand();
         }else{
             throw new NotCorrectException();

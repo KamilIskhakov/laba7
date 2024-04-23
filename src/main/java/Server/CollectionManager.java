@@ -1,8 +1,9 @@
 package Server;
 
-import Client.Main;
+import Client.Client;
 import CollectionObjects.Location;
 import CollectionObjects.Person;
+import Server.Parser.ToXML;
 import jakarta.xml.bind.annotation.*;
 
 import java.util.*;
@@ -81,7 +82,7 @@ public class CollectionManager {
         for (int i = 0; i < arrayPeople.length; i++) {
             arrayPeople[i] = (Person) arrayObjectPeople[i];
             if (arrayPeople[i].getHeight() > height) {
-                Main.terminalOutputManager.print(arrayPeople[i].getName() + " ");
+                Client.terminalOutputManager.print(arrayPeople[i].getName() + " ");
             }
         }
     }
@@ -92,16 +93,16 @@ public class CollectionManager {
         for (int i = 0; i < arrayPeople.length; i++) {
             arrayPeople[i] = (Person) arrayObjectPeople[i];
             if (arrayPeople[i].compareTo(location) < 0) {
-                Main.terminalOutputManager.print(arrayPeople[i].getName() + " ");
+                Client.terminalOutputManager.print(arrayPeople[i].getName() + " ");
             }
         }
     }
 
     public void showCollection() {
         for (Person person : personcollection) {
-            Main.terminalOutputManager.print(person.getName() + " ");
+            Client.terminalOutputManager.print(person.getName() + " ");
         }
-        Main.terminalOutputManager.println(" ");
+        Client.terminalOutputManager.println(" ");
     }
 
     public void update(Person userPerson, Integer id) {

@@ -1,6 +1,6 @@
 package Controler;
 
-import Client.Main;
+import Client.Client;
 import java.util.HashMap;
 import Controler.Handlers.*;
 import Exceptions.NotCorrectException;
@@ -27,13 +27,14 @@ public class CommandRequestManager {
         commands.put("exit", new ExitHandler());
     }
 
-    public void preparationForShipment(String commandName, String arguments){
+    public Handler preparationForShipment(String commandName, String arguments){
         try {
             Handler handler = commands.get(commandName);
             handler.handle(arguments);
-            Main.serverEntryPoint.performCom(handler);
+            return handler;
         } catch (NullPointerException | NotCorrectException exp) {
-            Main.terminalOutputManager.println("Некорректный ввод команды");
+            Client.terminalOutputManager.println("Некорректный ввод команды");
         }
+        return null;
     }
 }

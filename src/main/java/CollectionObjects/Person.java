@@ -1,7 +1,6 @@
 package CollectionObjects;
 
 
-import Client.Main;
 import jakarta.xml.bind.annotation.*;
 
 import java.io.Serializable;

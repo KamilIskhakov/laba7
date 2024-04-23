@@ -1,9 +1,8 @@
 package Controler.Handlers;
 
-import Client.Main;
+import Client.Client;
 import CollectionObjects.Person;
 import Controler.Command;
-import Controler.CommandRequestManager;
 import Controler.Commands.UpdateCommand;
 import Exceptions.NotCorrectException;
 
@@ -19,7 +18,7 @@ public class UpdateHandler implements Handler{
             }catch (Exception e){
                 throw new NotCorrectException();
             }
-            this.person = Main.terminalManager.MakeMePerson();
+            this.person = Client.terminalManager.MakeMePerson();
             CreateCommand();
         }else{
             throw new NotCorrectException();

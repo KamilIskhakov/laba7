@@ -4,6 +4,7 @@ import CollectionObjects.Person;
 import Controler.Command;
 import Controler.RequestToServer.ExecuteCode;
 import Controler.RequestToServer.ServerResponse;
+import Server.Server;
 import Server.ServerEntryPoint;
 
 public class AddCommand implements Command {
@@ -25,7 +26,7 @@ public class AddCommand implements Command {
 
     @Override
     public ServerResponse execute(){
-        ServerEntryPoint.collectionManager.addToCollection(person);
+        Server.collectionManager.addToCollection(person);
         return new ServerResponse(ExecuteCode.SUCCESS);
     }
 }

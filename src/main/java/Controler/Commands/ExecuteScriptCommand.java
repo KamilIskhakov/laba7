@@ -1,6 +1,6 @@
 package Controler.Commands;
 
-import Client.Main;
+import Client.Client;
 import Controler.Command;
 
 public class ExecuteScriptCommand implements Command {
@@ -20,6 +20,6 @@ public class ExecuteScriptCommand implements Command {
 
     @Override
     public void execute() {
-        Main.terminalInput.readScript(filepath);
+        Client.terminalInput.readScript(filepath);
     }
 }

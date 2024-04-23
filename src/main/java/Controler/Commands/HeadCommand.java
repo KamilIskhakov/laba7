@@ -1,6 +1,6 @@
 package Controler.Commands;
 
-import Client.Main;
+import Client.Client;
 import Controler.Command;
 import Server.ServerEntryPoint;
 
@@ -17,6 +17,6 @@ public class HeadCommand implements Command {
 
     @Override
     public void execute() {
-      Main.terminalOutputManager.println(ServerEntryPoint.collectionManager.showHead());
+      Client.terminalOutputManager.println(ServerEntryPoint.collectionManager.showHead());
     }
 }

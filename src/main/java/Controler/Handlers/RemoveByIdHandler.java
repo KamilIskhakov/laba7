@@ -1,6 +1,5 @@
 package Controler.Handlers;
 
-import Client.Main;
 import Controler.Command;
 import Controler.Commands.RemoveByIdCommand;
 import Exceptions.NotCorrectException;

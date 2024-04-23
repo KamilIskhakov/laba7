@@ -5,7 +5,7 @@ import Exceptions.IllegalAddressException;
 import java.net.InetSocketAddress;
 
 public final class Checker {
-    private static final int MIN_PORT = 1;
+    private static final int MIN_PORT = 1025;
     private static final int MAX_PORT = 65535;
 
     private Checker() {

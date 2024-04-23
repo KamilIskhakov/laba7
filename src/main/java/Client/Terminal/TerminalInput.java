@@ -1,6 +1,6 @@
 package Client.Terminal;
 
-import Client.Main;
+import Client.Client;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -38,13 +38,13 @@ public class TerminalInput {
 
 
     public void readScript(String scriptPath) {
-        Main.script = true;
+        Client.script = true;
         File scriptFile = new File(scriptPath);
         Scanner scriptScanner = null;
         try {
             scriptScanner = new Scanner(scriptFile);
         } catch (FileNotFoundException e) {
-            Main.script = false;
+            Client.script = false;
             System.out.println("Файл не найден");
         }
         if (scriptScanner != null) {

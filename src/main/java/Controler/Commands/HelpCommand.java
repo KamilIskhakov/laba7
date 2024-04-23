@@ -1,6 +1,6 @@
 package Controler.Commands;
 
-import Client.Main;
+import Client.Client;
 import Controler.Command;
 
 import java.io.File;
@@ -42,6 +42,6 @@ public class HelpCommand implements Command {
         for (String[] comhelp : help_out) {
             output += "   " + comhelp[0] + " : " + comhelp[1] + "\n";
         }
-        Main.terminalOutputManager.println(output);
+        Client.terminalOutputManager.println(output);
     }
 }
