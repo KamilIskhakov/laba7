@@ -1,5 +1,6 @@
 package Client;
 
+import Client.Terminal.ColorOutput;
 import Client.Terminal.TerminalOutput;
 import Controler.Handlers.Handler;
 import Exceptions.NoConnectionException;
@@ -52,7 +53,7 @@ public class ClientToSend {
                 break;
             } else {
                 outputManager.printlnImportantColorMessage("Cannot receive response from server. Retrying attempt #"
-                        + attempt + " now...", Color.RED);
+                        + attempt + " now...", ColorOutput.RED);
                 if (attempt == reconnectionAttempts) {
                     throw new NoConnectionException();
                 }

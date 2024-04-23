@@ -37,15 +37,21 @@ public class TerminalManager {
                     if (!inputManager.scriptBox.isEmpty()) {
                         String[] readLine = inputManager.scriptBox.pop();
                         Handler handler = commandRequestManager.preparationForShipment(readLine[0], readLine[1]);
-                        ServerResponse response = (ServerResponse) Client.clientToSend.send(handler);
-                        processServerResponse(response);
+                        if (handler != null){
+                            ServerResponse response = (ServerResponse) Client.clientToSend.send(handler);
+                            processServerResponse(response);
+                        }
                     } else {
                         Client.script = false;
                     }
                 } else {
                     outputManager.printlnWriteCommand();
                     String[] readLine = inputManager.readTerminal();
-                    commandRequestManager.preparationForShipment(readLine[0], readLine[1]);
+                    Handler handler =  commandRequestManager.preparationForShipment(readLine[0], readLine[1]);
+                    if (handler != null){
+                        ServerResponse response = (ServerResponse) Client.clientToSend.send(handler);
+                        processServerResponse(response);
+                    }
                 }
             } catch (NullPointerException e) {
                 outputManager.printlnNotCorrectInput();
@@ -56,7 +62,7 @@ public class TerminalManager {
         ExecuteCode executeCode = serverResponse.getExecuteCode();
         switch (executeCode) {
             case SUCCESS:
-                outputManager.printlnColorMessage(executeCode.getMessage(), java.awt.Color.GREEN);
+                outputManager.printlnColorMessage(executeCode.getMessage(), ColorOutput.GREEN);
                 break;
             case VALUE:
                 outputManager.printlnImportantMessage(executeCode.getMessage());
@@ -66,10 +72,10 @@ public class TerminalManager {
                 Client.terminalInput.readScript(serverResponse.getMessage());
                 break;
             case EXIT:
-                outputManager.printlnImportantColorMessage(executeCode.getMessage(), java.awt.Color.RED);
+                outputManager.printlnImportantColorMessage(executeCode.getMessage(), ColorOutput.RED);
                 System.exit(0);
             default:
-                outputManager.printlnImportantColorMessage("incorrect server's response...", java.awt.Color.RED);
+                outputManager.printlnImportantColorMessage("incorrect server's response...", ColorOutput.RED);
         }
     }
 

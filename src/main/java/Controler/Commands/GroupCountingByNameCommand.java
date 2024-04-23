@@ -25,8 +25,8 @@ public class GroupCountingByNameCommand implements Command {
         for(int i : Server.collectionManager.GroupPeople())   {
             if (i>0){
             s += "Группа имён с длинной " + count + ": " + i + "\n";
-            count += 1;
             }
+            count += 1;
         }
         return new ServerResponse(s,ExecuteCode.VALUE);
     }

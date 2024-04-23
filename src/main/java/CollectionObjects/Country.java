@@ -1,7 +1,9 @@
 package CollectionObjects;
 
 
-public enum Country{
+import java.io.Serializable;
+
+public enum Country implements Serializable {
         FRANCE,
         VATICAN,
         SOUTH_KOREA;

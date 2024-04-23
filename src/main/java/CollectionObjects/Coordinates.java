@@ -4,10 +4,11 @@ package CollectionObjects;
 import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlType;
 
+import java.io.Serializable;
 
 
 @XmlType(propOrder = {"x", "y"})
-public class Coordinates{
+public class Coordinates implements Serializable {
     private Float x;
     private Float y;
 

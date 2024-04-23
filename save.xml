@@ -34,6 +34,40 @@
             <name>Kukuha</name>
         </location>
     </person>
+    <person id="3" creationDate="2024-04-24T00:37:35.505+03:00">
+        <name>tupayalaba</name>
+        <coordinates>
+            <x>123.0</x>
+            <y>1234.0</y>
+        </coordinates>
+        <height>1</height>
+        <weight>1.0</weight>
+        <eyeColor>BLACK</eyeColor>
+        <nationality>FRANCE</nationality>
+        <location>
+            <x>32</x>
+            <y>12.0</y>
+            <z>1.0</z>
+            <name>localhost</name>
+        </location>
+    </person>
+    <person id="4" creationDate="2024-04-24T02:22:42.316+03:00">
+        <name>mushasvo</name>
+        <coordinates>
+            <x>123.0</x>
+            <y>2.0</y>
+        </coordinates>
+        <height>22</height>
+        <weight>1.0</weight>
+        <eyeColor>BLACK</eyeColor>
+        <nationality>FRANCE</nationality>
+        <location>
+            <x>32</x>
+            <y>12.0</y>
+            <z>1.0</z>
+            <name>iwanttosleep</name>
+        </location>
+    </person>
     <dateOfInitialization>2024-04-19T10:20:31.407+03:00</dateOfInitialization>
     <filePath>save.xml</filePath>
 </personList>

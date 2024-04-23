@@ -26,6 +26,6 @@ public class UpdateCommand implements Command {
     @Override
     public ServerResponse execute() {
         Server.collectionManager.update(person,argument);
-        return new ServerResponse(ExecuteCode.VALUE);
+        return new ServerResponse(ExecuteCode.SUCCESS);
     }
 }

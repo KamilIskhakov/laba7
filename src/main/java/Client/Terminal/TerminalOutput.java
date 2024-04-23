@@ -1,6 +1,5 @@
 package Client.Terminal;
 
-import java.awt.*;
 import java.io.IOException;
 import java.io.OutputStream;
 
@@ -16,13 +15,13 @@ public class TerminalOutput {
 
     }
 
-    public void printlnColorMessage(String string, Color color) {
+    public void printlnColorMessage(String string, ColorOutput color) {
             printlnImportantColorMessage(string, color);
 
     }
 
-    public void printlnImportantColorMessage(String string, Color color) {
-        printlnImportantMessage(color.toString() + string );
+    public void printlnImportantColorMessage(String string, ColorOutput color) {
+        printlnImportantMessage(color.colorize(string));
     }
     public void printlnNotCorrectInput() {
         println("Вы ввели некорректные формат данных");

@@ -24,7 +24,7 @@ public final class Server {
         LOGGER.trace("the server is running");
         if (args.length == NUMBER_OF_ARGUMENTS) {
             try {
-            // имя хоста указывается первой строкой аргументах командной строки, порт – второй
+            // имя хоста указывается первой строкой аргумента командной строки, порт – второй
             final InetSocketAddress address = Checker.checkAddress(args[0], args[1]);
             LOGGER.info(() -> "set " + address + " address");
             collectionManager = CollectionCreator.load("save.xml");

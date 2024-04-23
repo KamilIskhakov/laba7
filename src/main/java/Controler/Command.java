@@ -2,7 +2,9 @@ package Controler;
 
 import Controler.RequestToServer.ServerResponse;
 
-public interface Command {
+import java.io.Serializable;
+
+public interface Command extends Serializable {
     public String getDescription();
 
     public String getName();

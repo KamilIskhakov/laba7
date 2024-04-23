@@ -18,7 +18,7 @@ public class ExitCommand implements Command {
 
     @Override
     public ServerResponse execute() {
-        new SaveCommand();
+        new SaveCommand().execute();
         return new ServerResponse(ExecuteCode.EXIT);
     }
 }

@@ -6,6 +6,8 @@ import Server.Parser.ToXML;
 import jakarta.xml.bind.annotation.*;
 
 import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @XmlRootElement(name = "personList")
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -63,64 +65,56 @@ public class CollectionManager {
 
     public int[] GroupPeople() {
         Object[] arrayObjectPeople = personcollection.toArray();
-        Person[] arrayPeople = new Person[arrayObjectPeople.length];
-        int[] countName = new int[1024];
-        for (int i = 0; i < arrayPeople.length; i++) {
-            arrayPeople[i] = (Person) arrayObjectPeople[i];
-            int j = arrayPeople[i].getName().length();
-            countName[j] += 1;
-        }
+        IntStream countNameStream = Arrays.stream(arrayObjectPeople).mapToInt(obj -> {
+            if (obj instanceof Person person) {
+                return person.getName().length();
+            } else {
+                throw new IllegalArgumentException("Object is not a Person");
+            }});
+        // Создаем массив для подсчета длины имен
+        int[] countName = new int[20];
+        // Применяем функцию к потоку для подсчета количества каждого имени
+        countNameStream.forEach(n -> countName[n] += 1 );
         return countName;
     }
 
     public String FilterGreaterThanHeight(Integer height) {
-        String s = "";
-        Object[] arrayObjectPeople = personcollection.toArray();
-        Person[] arrayPeople = new Person[arrayObjectPeople.length];
-        for (int i = 0; i < arrayPeople.length; i++) {
-            arrayPeople[i] = (Person) arrayObjectPeople[i];
-            if (arrayPeople[i].getHeight() > height) {
-                s += arrayPeople[i].getName() + "\n ";
-            }
-        }
-        return s;
+        final String[] result = {""};
+        // Используем stream для фильтрации и преобразования списка людей
+        personcollection.stream()
+                .filter(person -> (person.getHeight() > height)) // Фильтрация по высоте
+                .map(Person::getName) // Преобразование Person в String (имя)
+                .forEach(name -> result[0] += name + "\n "); // Добавление имени в результат
+        return result[0];
     }
 
     public String FilterLessThanLocation(Location location) {
-        String s = "";
-        Object[] arrayObjectPeople = personcollection.toArray();
-        Person[] arrayPeople = new Person[arrayObjectPeople.length];
-        for (int i = 0; i < arrayPeople.length; i++) {
-            arrayPeople[i] = (Person) arrayObjectPeople[i];
-            if (arrayPeople[i].compareTo(location) < 0) {
-                s += arrayPeople[i].getName() + "\n ";
-            }
-        }
-        return s;
+        final String[] result = {""};
+        // Используем stream для фильтрации и преобразования списка людей
+        personcollection.stream()
+                .filter(person -> (person.compareTo(location) < 0)) // Фильтрация по сравнению с Location
+                .map(Person::getName) // Преобразование Person в String (имя)
+                .forEach(name -> result[0] += name + "\n "); // Добавление имени в результат
+        return result[0];
     }
 
     public String showCollection() {
-        String s = "";
-        for (Person person : personcollection) {
-            s += person.getName() + " ";
-        }
-        return s + " ";
+        return personcollection.stream()
+                .map(Person::getName)
+                .collect(Collectors.joining(" "));
     }
 
     public void update(Person userPerson, Integer id) {
-        ArrayDeque<Person> people = new ArrayDeque<>();
-        Object[] arrayObjectPeople = personcollection.toArray();
-        Person[] arrayPeople = new Person[arrayObjectPeople.length];
-        for (int i = 0; i < arrayPeople.length; i++) {
-            arrayPeople[i] = (Person) arrayObjectPeople[i];
-            arrayPeople[i].setCreationDate(new Date());
-            arrayPeople[i].setId(generateId());
-            if (Objects.equals(arrayPeople[i].getId(), id)) {
-                arrayPeople[i] = userPerson;
+        personcollection.stream().map(person -> {
+            if (Objects.equals(person.getId(), id)) {
+                userPerson.setCreationDate(new Date());
+                userPerson.setId(id); // Устанавливаем ID обратно, так как он был заменен на generateId()
+                return userPerson; // Возвращаем обновленный объект пользователя
+            } else {
+                return person; // Возвращаем тот же объект, если ID не совпадает
             }
-            people.add(arrayPeople[i]);
-        }
-        setPersonCollection(people);
+        });
+
     }
 
     public Integer generateId() {
