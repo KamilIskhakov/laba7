@@ -24,7 +24,7 @@ public class Client {
     public static ClientToSend clientToSend;
     private static final int TIMEOUT = 100;
     private static final int BUFFER_SIZE = 3048;
-    private static final int RECONNECTION_ATTEMPTS = 10;
+    private static final int RECONNECTION_ATTEMPTS = 100;
     private static final int NUMBER_OF_ARGUMENTS = 2;
 
     public static void main(String[] args) {
