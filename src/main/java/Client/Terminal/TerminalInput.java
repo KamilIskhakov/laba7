@@ -24,7 +24,6 @@ public class TerminalInput {
             String readline = scanners.nextLine();
             if (readline.contains(" ")) {
                 return readline.split(" ");
-
             } else {
                 return new String[]{readline,""};
 
@@ -53,7 +52,7 @@ public class TerminalInput {
                 if (readLine.contains(" ")) {
                     scriptBox.add(readLine.split(" "));
                 } else {
-                    scriptBox.add(new String[]{readLine, ""});
+                    scriptBox.add(new String[]{readLine,""});
                 }
             }
         }

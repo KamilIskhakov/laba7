@@ -2,7 +2,7 @@
   <artifact type="jar" name="laba5.3:jar">
     <output-path>$PROJECT_DIR$/out/artifacts/laba5_3_jar</output-path>
     <root id="archive" name="laba5.3.jar">
-      <element id="module-output" name="laba5.3" />
+      <element id="module-output" name="Client" />
       <element id="extracted-dir" path="$MAVEN_REPOSITORY$/com/google/guava/guava-primitives/r03/guava-primitives-r03.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/apache/commons/commons-lang3/3.14.0/commons-lang3-3.14.0.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$MAVEN_REPOSITORY$/com/sun/xml/bind/jaxb-core/4.0.0/jaxb-core-4.0.0.jar" path-in-jar="/" />

@@ -1,7 +1,7 @@
 package Server;
 
-import CollectionObjects.Location;
-import CollectionObjects.Person;
+import Controler.CollectionObjects.Location;
+import Controler.CollectionObjects.Person;
 import Server.Parser.ToXML;
 import jakarta.xml.bind.annotation.*;
 

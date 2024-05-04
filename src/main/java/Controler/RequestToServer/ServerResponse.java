@@ -4,31 +4,29 @@ import java.io.Serializable;
 
 public class ServerResponse implements Serializable {
     private final String message;
-    private final ExecuteCode executeCode;
-
-    public ServerResponse(String message, ExecuteCode executeCode) {
+    private final String commandName;
+    public ServerResponse(String commandName, String message) {
+        this.commandName = commandName;
         this.message = message;
-        this.executeCode = executeCode;
     }
 
-    public ServerResponse(ExecuteCode executeCode) {
+    public ServerResponse(String commandName) {
+        this.commandName = commandName;
         this.message = "";
-        this.executeCode = executeCode;
+    }
+    public String getCommandName(){
+        return commandName;
     }
 
     public String getMessage() {
         return message;
     }
 
-    public ExecuteCode getExecuteCode() {
-        return executeCode;
-    }
 
     @Override
     public String toString() {
         return "ServerResponse{"
                 + " message='" + message + '\''
-                + ", executeCode=" + executeCode
                 + '}';
     }
 }

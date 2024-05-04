@@ -1,17 +1,15 @@
 package Client;
 
 import Client.Terminal.ColorOutput;
-import Controler.CommandRequestManager;
 import Client.Terminal.TerminalInput;
 import Client.Terminal.TerminalManager;
 import Client.Terminal.TerminalOutput;
 
 import Controler.RequestToServer.Checker;
-import Exceptions.IllegalAddressException;
-import Exceptions.InvalidInputException;
-import Exceptions.NoConnectionException;
+import Controler.Exceptions.IllegalAddressException;
+import Controler.Exceptions.InvalidInputException;
+import Controler.Exceptions.NoConnectionException;
 
-import java.awt.*;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.nio.channels.DatagramChannel;
@@ -37,13 +35,13 @@ public class Client {
                 client.bind(null).configureBlocking(false);
                 clientToSend = new ClientToSend(client, serverAddress, TIMEOUT, BUFFER_SIZE, RECONNECTION_ATTEMPTS, terminalOutput);
                 CommandRequestManager commandRequestManager = new CommandRequestManager();
-                terminalManager = new TerminalManager(commandRequestManager, terminalInput, terminalOutput);
+                CommandResponseManager commandResponseManager = new CommandResponseManager();
+                terminalManager = new TerminalManager(commandRequestManager, terminalInput, terminalOutput, commandResponseManager);
                 terminalManager.start();
             } catch (InvalidInputException | NoConnectionException | IllegalAddressException e) {
                 terminalOutput.printlnImportantColorMessage(e.getMessage(), ColorOutput.RED);
             } catch (IOException | ClassNotFoundException | InterruptedException e) {
                 terminalOutput.printlnImportantColorMessage("error during connection:", ColorOutput.RED);
-                e.printStackTrace();
             }
         } else {
             terminalOutput.printlnImportantColorMessage("please enter a server hostname and port as a command "

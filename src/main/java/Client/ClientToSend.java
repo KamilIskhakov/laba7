@@ -2,11 +2,11 @@ package Client;
 
 import Client.Terminal.ColorOutput;
 import Client.Terminal.TerminalOutput;
-import Controler.Handlers.Handler;
-import Exceptions.NoConnectionException;
+import Client.CommandFactory.Handler;
+import Controler.Command;
+import Controler.Exceptions.NoConnectionException;
 import Controler.RequestToServer.*;
 
-import java.awt.*;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
@@ -30,7 +30,7 @@ public class ClientToSend {
         this.outputManager = outputManager;
     }
 
-    public Object send(Handler request) throws IOException, NoConnectionException, InterruptedException, ClassNotFoundException {
+    public Object send(Command request) throws IOException, NoConnectionException, InterruptedException, ClassNotFoundException {
         byte[] bytesSending = Serializer.serialize(request);
         ByteBuffer wrapperSending = ByteBuffer.wrap(bytesSending); //обертываем в буффер наш чанк
         for (int attempt = 1; attempt <= reconnectionAttempts; attempt++) {

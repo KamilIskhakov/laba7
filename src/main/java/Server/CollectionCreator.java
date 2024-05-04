@@ -17,12 +17,14 @@ public final class CollectionCreator {
         if (file.exists() && file.length() != 0) {
             try {
                 collectionManager = FromXML.convertFromXML(file);
+                Server.LOGGER.info("The collection was successfully loaded from the file " + filePath);
             } catch (JAXBException e) {
                 throw new RuntimeException(e);
             }
             collectionManager.setFilePath(filePath);
         } else {
             collectionManager = new CollectionManager(new ArrayDeque<>(), filePath);
+            Server.LOGGER.info("No file with this name was found. A new empty collection has been created");
         }
         return collectionManager;
     }

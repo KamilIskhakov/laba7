@@ -5,7 +5,8 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 
-import Controler.Handlers.Handler;
+import Client.CommandFactory.Handler;
+import Controler.Command;
 import Controler.RequestToServer.Serializer;
 import Controler.RequestToServer.ServerResponse;
 import org.apache.logging.log4j.Logger;
@@ -25,11 +26,11 @@ public class Receiver {
         byte[] bytesReceiving = new byte[bufferSize];
         DatagramPacket request = new DatagramPacket(bytesReceiving, bytesReceiving.length);
         server.receive(request);
-        Handler received = (Handler) Serializer.deserialize(bytesReceiving);
+        Command received = (Command) Serializer.deserialize(bytesReceiving);
         InetAddress client = request.getAddress();
         int port = request.getPort();
         logger.info("received request from address " + client + ", port " + port);
-        ServerResponse response = received.getCommand().execute();
+        ServerResponse response = received.execute();
         byte[] bytesSending = Serializer.serialize(response);
         DatagramPacket packet = new DatagramPacket(bytesSending, bytesSending.length, client, port);
         server.send(packet);

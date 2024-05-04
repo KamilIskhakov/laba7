@@ -1,7 +1,7 @@
 package Server;
 
 import Controler.RequestToServer.Checker;
-import Exceptions.IllegalAddressException;
+import Controler.Exceptions.IllegalAddressException;
 import Server.Response.Receiver;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -13,7 +13,7 @@ import java.net.InetSocketAddress;
 public final class Server {
     public static CollectionManager collectionManager;
     private static final int BUFFER_SIZE = 2048;
-    private static final Logger LOGGER = LogManager.getLogger(Server.class);
+    public static final Logger LOGGER = LogManager.getLogger(Server.class);
     private static final int NUMBER_OF_ARGUMENTS = 2;
 
     private Server() {
@@ -21,7 +21,7 @@ public final class Server {
     }
 
     public static void main(String[] args) {
-        LOGGER.trace("the server is running");
+        LOGGER.info("the server is running");
         if (args.length == NUMBER_OF_ARGUMENTS) {
             try {
             // имя хоста указывается первой строкой аргумента командной строки, порт – второй

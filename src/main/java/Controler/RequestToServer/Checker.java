@@ -1,6 +1,6 @@
 package Controler.RequestToServer;
 
-import Exceptions.IllegalAddressException;
+import Controler.Exceptions.IllegalAddressException;
 
 import java.net.InetSocketAddress;
 

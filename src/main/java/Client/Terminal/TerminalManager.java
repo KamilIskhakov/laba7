@@ -1,33 +1,37 @@
 package Client.Terminal;
 
 import Client.Client;
-import CollectionObjects.Coordinates;
-import CollectionObjects.Person;
-import Controler.CommandRequestManager;
-import Controler.Handlers.Handler;
-import Controler.RequestToServer.ExecuteCode;
+import Controler.CollectionObjects.Coordinates;
+import Controler.CollectionObjects.Person;
+import Client.CommandRequestManager;
+import Client.CommandFactory.Handler;
+import Client.CommandResponseManager;
+import Controler.Command;
 import Controler.RequestToServer.ServerResponse;
-import Exceptions.InvalidInputException;
-import Exceptions.NoConnectionException;
-import Exceptions.NotCorrectException;
+import Controler.Exceptions.InvalidInputException;
+import Controler.Exceptions.NoConnectionException;
+import Controler.Exceptions.NotCorrectException;
 import com.github.drapostolos.typeparser.TypeParser;
 import com.github.drapostolos.typeparser.TypeParserException;
-import CollectionObjects.*;
+import Controler.CollectionObjects.*;
 
 import java.io.IOException;
 
 public class TerminalManager {
     private final CommandRequestManager commandRequestManager;
+    private final CommandResponseManager commandResponseManager;
     private final TerminalInput inputManager;
     private final TerminalOutput outputManager;
     private final TypeParser parser;
 
-    public TerminalManager(CommandRequestManager commandRequestManager, TerminalInput inputManager, TerminalOutput outputManager) {
+    public TerminalManager(CommandRequestManager commandRequestManager,
+                           TerminalInput inputManager, TerminalOutput outputManager,
+                           CommandResponseManager commandResponseManager) {
         this.commandRequestManager = commandRequestManager;
         this.inputManager = inputManager;
         this.outputManager = outputManager;
         this.parser = TypeParser.newBuilder().build();
-
+        this.commandResponseManager = commandResponseManager;
     }
 
     public void start()  throws IOException, ClassNotFoundException, InvalidInputException, NoConnectionException, InterruptedException{
@@ -36,10 +40,10 @@ public class TerminalManager {
                 if (Client.script) {
                     if (!inputManager.scriptBox.isEmpty()) {
                         String[] readLine = inputManager.scriptBox.pop();
-                        Handler handler = commandRequestManager.preparationForShipment(readLine[0], readLine[1]);
+                        Command handler = commandRequestManager.preparationForShipment(readLine[0], readLine[1]);
                         if (handler != null){
                             ServerResponse response = (ServerResponse) Client.clientToSend.send(handler);
-                            processServerResponse(response);
+                            commandResponseManager.preparationForOutput(response);
                         }
                     } else {
                         Client.script = false;
@@ -47,37 +51,19 @@ public class TerminalManager {
                 } else {
                     outputManager.printlnWriteCommand();
                     String[] readLine = inputManager.readTerminal();
-                    Handler handler =  commandRequestManager.preparationForShipment(readLine[0], readLine[1]);
+                    Command handler =  commandRequestManager.preparationForShipment(readLine[0], readLine[1]);
                     if (handler != null){
                         ServerResponse response = (ServerResponse) Client.clientToSend.send(handler);
-                        processServerResponse(response);
+                        commandResponseManager.preparationForOutput(response);
                     }
                 }
             } catch (NullPointerException e) {
+                e.printStackTrace();
                 outputManager.printlnNotCorrectInput();
             }
         }
     }
-    public void processServerResponse(ServerResponse serverResponse) {
-        ExecuteCode executeCode = serverResponse.getExecuteCode();
-        switch (executeCode) {
-            case SUCCESS:
-                outputManager.printlnColorMessage(executeCode.getMessage(), ColorOutput.GREEN);
-                break;
-            case VALUE:
-                outputManager.printlnImportantMessage(executeCode.getMessage());
-                outputManager.printlnImportantMessage(serverResponse.getMessage());
-                break;
-            case READ_SCRIPT:
-                Client.terminalInput.readScript(serverResponse.getMessage());
-                break;
-            case EXIT:
-                outputManager.printlnImportantColorMessage(executeCode.getMessage(), ColorOutput.RED);
-                System.exit(0);
-            default:
-                outputManager.printlnImportantColorMessage("incorrect server's response...", ColorOutput.RED);
-        }
-    }
+
 
 
     public <T> T getAsk(String messageWellDone, Class<T> type) {
