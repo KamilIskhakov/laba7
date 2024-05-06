@@ -1,18 +1,16 @@
 package Client.Terminal;
 
 import Client.Client;
-import Controler.RequestFactory.Request;
-import Controler.CollectionObjects.Coordinates;
-import Controler.CollectionObjects.Person;
 import Client.CommandRequestManager;
 import Client.CommandResponseFromServerManager;
+import Client.RequestFactoryDTO.RequestDTO;
 import Controler.ChannelClientServerUtil.ServerResponse;
+import Controler.CollectionObjects.*;
 import Controler.Exceptions.InvalidInputException;
 import Controler.Exceptions.NoConnectionException;
 import Controler.Exceptions.NotCorrectException;
 import com.github.drapostolos.typeparser.TypeParser;
 import com.github.drapostolos.typeparser.TypeParserException;
-import Controler.CollectionObjects.*;
 
 import java.io.IOException;
 
@@ -39,7 +37,7 @@ public class TerminalManager {
                 if (Client.script) {
                     if (!inputManager.scriptBox.isEmpty()) {
                         String[] readLine = inputManager.scriptBox.pop();
-                        Request handler = commandRequestManager.preparationForShipment(readLine[0], readLine[1]);
+                        RequestDTO handler = commandRequestManager.preparationForShipment(readLine[0], readLine[1]);
                         if (handler != null){
                             ServerResponse response = (ServerResponse) Client.clientSendToServer.send(handler);
                             commandResponseFromServerManager.preparationForOutput(response);
@@ -50,7 +48,7 @@ public class TerminalManager {
                 } else {
                     outputManager.printlnWriteCommand();
                     String[] readLine = inputManager.readTerminal();
-                    Request handler =  commandRequestManager.preparationForShipment(readLine[0], readLine[1]);
+                    RequestDTO handler =  commandRequestManager.preparationForShipment(readLine[0], readLine[1]);
                     if (handler != null){
                         ServerResponse response = (ServerResponse) Client.clientSendToServer.send(handler);
                         commandResponseFromServerManager.preparationForOutput(response);

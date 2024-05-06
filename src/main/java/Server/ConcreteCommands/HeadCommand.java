@@ -1,16 +1,16 @@
 package Server.ConcreteCommands;
 
-import Controler.RequestFactory.HeadRequest;
-import Controler.RequestFactory.Request;
-import Server.Command;
+import Client.RequestFactoryDTO.HeadRequestDTO;
+import Client.RequestFactoryDTO.RequestDTO;
 import Controler.ChannelClientServerUtil.ServerResponse;
+import Server.Command;
 import Server.Server;
 
 public class HeadCommand implements Command {
-    private HeadRequest request;
+    private HeadRequestDTO request;
 
-    public HeadCommand(Request request){
-        this.request = (HeadRequest) request;
+    public HeadCommand(RequestDTO request){
+        this.request = (HeadRequestDTO) request;
     }
     @Override
     public String getDescription() {

@@ -1,16 +1,16 @@
 package Server.ConcreteCommands;
 
-import Controler.RequestFactory.Request;
-import Controler.RequestFactory.UpdateRequest;
-import Server.Command;
+import Client.RequestFactoryDTO.RequestDTO;
+import Client.RequestFactoryDTO.UpdateRequestDTO;
 import Controler.ChannelClientServerUtil.ServerResponse;
+import Server.Command;
 import Server.Server;
 
 public class UpdateCommand implements Command {
-    private UpdateRequest request;
+    private UpdateRequestDTO request;
 
-    public UpdateCommand(Request request){
-        this.request = (UpdateRequest) request;
+    public UpdateCommand(RequestDTO request){
+        this.request = (UpdateRequestDTO) request;
     }
     @Override
     public String getDescription() {

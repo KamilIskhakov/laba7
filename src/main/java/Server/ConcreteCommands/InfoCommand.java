@@ -1,16 +1,16 @@
 package Server.ConcreteCommands;
 
-import Controler.RequestFactory.InfoRequest;
-import Controler.RequestFactory.Request;
-import Server.Command;
+import Client.RequestFactoryDTO.InfoRequestDTO;
+import Client.RequestFactoryDTO.RequestDTO;
 import Controler.ChannelClientServerUtil.ServerResponse;
+import Server.Command;
 import Server.Server;
 
 public class InfoCommand implements Command {
-    private InfoRequest request;
+    private InfoRequestDTO request;
 
-    public InfoCommand(Request request){
-        this.request = (InfoRequest) request;
+    public InfoCommand(RequestDTO request){
+        this.request = (InfoRequestDTO) request;
     }
     @Override
     public String getDescription() {

@@ -1,16 +1,16 @@
 package Server.ConcreteCommands;
 
-import Controler.RequestFactory.Request;
-import Controler.RequestFactory.ShowRequest;
-import Server.Command;
+import Client.RequestFactoryDTO.RequestDTO;
+import Client.RequestFactoryDTO.ShowRequestDTO;
 import Controler.ChannelClientServerUtil.ServerResponse;
+import Server.Command;
 import Server.Server;
 
 public class ShowCommand implements Command {
-    private ShowRequest request;
+    private ShowRequestDTO request;
 
-    public ShowCommand(Request request){
-        this.request = (ShowRequest) request;
+    public ShowCommand(RequestDTO request){
+        this.request = (ShowRequestDTO) request;
     }
     @Override
     public String getDescription() {

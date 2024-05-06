@@ -1,16 +1,16 @@
 package Server.ConcreteCommands;
 
-import Controler.RequestFactory.FilterGreaterThanHeightRequest;
-import Controler.RequestFactory.Request;
-import Server.Command;
+import Client.RequestFactoryDTO.FilterGreaterThanHeightRequestDTO;
+import Client.RequestFactoryDTO.RequestDTO;
 import Controler.ChannelClientServerUtil.ServerResponse;
+import Server.Command;
 import Server.Server;
 
 public class FilterGreaterThanHeightCommand implements Command {
-    private FilterGreaterThanHeightRequest request;
+    private FilterGreaterThanHeightRequestDTO request;
 
-    public FilterGreaterThanHeightCommand(Request request){
-        this.request = (FilterGreaterThanHeightRequest) request;
+    public FilterGreaterThanHeightCommand(RequestDTO request){
+        this.request = (FilterGreaterThanHeightRequestDTO) request;
     }
     @Override
     public String getDescription() {

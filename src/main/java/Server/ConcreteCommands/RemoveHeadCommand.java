@@ -1,16 +1,16 @@
 package Server.ConcreteCommands;
 
-import Controler.RequestFactory.RemoveHeadRequest;
-import Controler.RequestFactory.Request;
-import Server.Command;
+import Client.RequestFactoryDTO.RemoveHeadRequestDTO;
+import Client.RequestFactoryDTO.RequestDTO;
 import Controler.ChannelClientServerUtil.ServerResponse;
+import Server.Command;
 import Server.Server;
 
 public class RemoveHeadCommand implements Command {
-    private RemoveHeadRequest request;
+    private RemoveHeadRequestDTO request;
 
-    public RemoveHeadCommand(Request request){
-        this.request = (RemoveHeadRequest) request;
+    public RemoveHeadCommand(RequestDTO request){
+        this.request = (RemoveHeadRequestDTO) request;
     }
 
     @Override

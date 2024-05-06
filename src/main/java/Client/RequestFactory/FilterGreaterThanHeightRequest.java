@@ -1,14 +1,17 @@
-package Controler.RequestFactory;
+package Client.RequestFactory;
 
+import Client.RequestFactoryDTO.FilterGreaterThanHeightRequestDTO;
+import Client.RequestFactoryDTO.RequestDTO;
 import Controler.Exceptions.NotCorrectException;
 
 public class FilterGreaterThanHeightRequest implements Request {
     private Integer height;
     @Override
-    public void reque(String args) throws NotCorrectException {
+    public RequestDTO reque(String args) throws NotCorrectException {
         if (args!=null){
             try{
                 height = Integer.parseInt(args);
+                return new FilterGreaterThanHeightRequestDTO(height);
             }catch (Exception e){
                 throw new NotCorrectException();
             }

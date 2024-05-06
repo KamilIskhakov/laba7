@@ -1,16 +1,16 @@
 package Server.ConcreteCommands;
 
-import Controler.RequestFactory.GroupCountingByNameRequest;
-import Controler.RequestFactory.Request;
-import Server.Command;
+import Client.RequestFactoryDTO.GroupCountingByNameRequestDTO;
+import Client.RequestFactoryDTO.RequestDTO;
 import Controler.ChannelClientServerUtil.ServerResponse;
+import Server.Command;
 import Server.Server;
 
 public class GroupCountingByNameCommand implements Command {
-    private GroupCountingByNameRequest request;
+    private GroupCountingByNameRequestDTO request;
 
-    public GroupCountingByNameCommand(Request request){
-        this.request = (GroupCountingByNameRequest) request;
+    public GroupCountingByNameCommand(RequestDTO request){
+        this.request = (GroupCountingByNameRequestDTO) request;
     }
 
     @Override

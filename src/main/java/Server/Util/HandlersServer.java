@@ -1,13 +1,13 @@
 package Server.Util;
 
-import Controler.RequestFactory.Request;
+import Client.RequestFactoryDTO.RequestDTO;
 import Controler.ChannelClientServerUtil.ServerResponse;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
 
-public class HandlersServer<T extends Request> {
+public class HandlersServer<T extends RequestDTO> {
     private List<Function<T, ServerResponse>> backingList = new ArrayList<>();
 
     public void add(Function<T, ServerResponse> handler) {

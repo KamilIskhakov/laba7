@@ -1,16 +1,16 @@
 package Server.ConcreteCommands;
 
-import Controler.RequestFactory.AddRequest;
-import Controler.RequestFactory.Request;
-import Server.Command;
+import Client.RequestFactoryDTO.AddRequestDTO;
+import Client.RequestFactoryDTO.RequestDTO;
 import Controler.ChannelClientServerUtil.ServerResponse;
+import Server.Command;
 import Server.Server;
 
 public class AddCommand implements Command {
-    private AddRequest request;
+    private AddRequestDTO request;
 
-    public AddCommand(Request request){
-        this.request = (AddRequest) request;
+    public AddCommand(RequestDTO request){
+        this.request = (AddRequestDTO) request;
     }
 
     @Override

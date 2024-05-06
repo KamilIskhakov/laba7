@@ -3,7 +3,6 @@ package Server;
 import Server.Parser.FromXML;
 import jakarta.xml.bind.JAXBException;
 
-
 import java.io.File;
 import java.util.ArrayDeque;
 

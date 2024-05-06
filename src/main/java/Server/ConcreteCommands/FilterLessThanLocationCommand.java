@@ -1,16 +1,16 @@
 package Server.ConcreteCommands;
 
-import Controler.RequestFactory.FilterLessThanLocationRequest;
-import Controler.RequestFactory.Request;
-import Server.Command;
+import Client.RequestFactoryDTO.FilterLessThanLocationRequestDTO;
+import Client.RequestFactoryDTO.RequestDTO;
 import Controler.ChannelClientServerUtil.ServerResponse;
+import Server.Command;
 import Server.Server;
 
 public class FilterLessThanLocationCommand implements Command {
-    private FilterLessThanLocationRequest request;
+    private FilterLessThanLocationRequestDTO request;
 
-    public FilterLessThanLocationCommand(Request request){
-        this.request = (FilterLessThanLocationRequest) request;
+    public FilterLessThanLocationCommand(RequestDTO request){
+        this.request = (FilterLessThanLocationRequestDTO) request;
     }
 
     @Override

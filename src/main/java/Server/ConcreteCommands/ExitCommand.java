@@ -1,15 +1,15 @@
 package Server.ConcreteCommands;
 
-import Controler.RequestFactory.ExitRequest;
-import Controler.RequestFactory.Request;
-import Server.Command;
+import Client.RequestFactoryDTO.ExitRequestDTO;
+import Client.RequestFactoryDTO.RequestDTO;
 import Controler.ChannelClientServerUtil.ServerResponse;
+import Server.Command;
 
 public class ExitCommand implements Command {
-    private ExitRequest request;
+    private ExitRequestDTO request;
 
-    public ExitCommand(Request request){
-        this.request = (ExitRequest) request;
+    public ExitCommand(RequestDTO request){
+        this.request = (ExitRequestDTO) request;
     }
     @Override
     public String getDescription() {

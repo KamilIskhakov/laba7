@@ -1,15 +1,15 @@
 package Server.Util;
 
-import java.io.IOException;
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
-import java.net.InetAddress;
-
-import Controler.RequestFactory.Request;
+import Client.RequestFactoryDTO.RequestDTO;
 import Controler.ChannelClientServerUtil.Serializer;
 import Controler.ChannelClientServerUtil.ServerResponse;
 import Server.Server;
 import org.apache.logging.log4j.Logger;
+
+import java.io.IOException;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
 
 public class Receiver {
     private final int bufferSize;
@@ -26,7 +26,7 @@ public class Receiver {
         byte[] bytesReceiving = new byte[bufferSize];
         DatagramPacket request = new DatagramPacket(bytesReceiving, bytesReceiving.length);
         server.receive(request);
-        Request received = (Request) Serializer.deserialize(bytesReceiving);
+        RequestDTO received = (RequestDTO) Serializer.deserialize(bytesReceiving);
         InetAddress client = request.getAddress();
         int port = request.getPort();
         logger.info("received request from address " + client + ", port " + port);

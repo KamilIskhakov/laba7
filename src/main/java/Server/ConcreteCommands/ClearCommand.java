@@ -1,16 +1,16 @@
 package Server.ConcreteCommands;
 
-import Controler.RequestFactory.ClearRequest;
-import Controler.RequestFactory.Request;
-import Server.Command;
+import Client.RequestFactoryDTO.ClearRequestDTO;
+import Client.RequestFactoryDTO.RequestDTO;
 import Controler.ChannelClientServerUtil.ServerResponse;
+import Server.Command;
 import Server.Server;
 
 public class ClearCommand implements Command {
-    private ClearRequest request;
+    private ClearRequestDTO request;
 
-    public ClearCommand(Request request){
-        this.request = (ClearRequest) request;
+    public ClearCommand(RequestDTO request){
+        this.request = (ClearRequestDTO) request;
     }
 
     @Override

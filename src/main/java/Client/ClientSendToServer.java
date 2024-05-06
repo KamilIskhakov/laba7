@@ -1,10 +1,10 @@
 package Client;
 
-import Controler.RequestFactory.Request;
+import Client.RequestFactoryDTO.RequestDTO;
 import Client.Terminal.ColorOutput;
 import Client.Terminal.TerminalOutput;
+import Controler.ChannelClientServerUtil.Serializer;
 import Controler.Exceptions.NoConnectionException;
-import Controler.ChannelClientServerUtil.*;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -29,7 +29,7 @@ public class ClientSendToServer {
         this.outputManager = outputManager;
     }
 
-    public Object send(Request request) throws IOException, NoConnectionException, InterruptedException, ClassNotFoundException {
+    public Object send(RequestDTO request) throws IOException, NoConnectionException, InterruptedException, ClassNotFoundException {
         byte[] bytesSending = Serializer.serialize(request);
         ByteBuffer wrapperSending = ByteBuffer.wrap(bytesSending); //обертываем в буффер наш чанк
         for (int attempt = 1; attempt <= reconnectionAttempts; attempt++) {

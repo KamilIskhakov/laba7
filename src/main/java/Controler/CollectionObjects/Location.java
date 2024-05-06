@@ -1,9 +1,8 @@
 package Controler.CollectionObjects;
 
 
-import jakarta.xml.bind.annotation.XmlType;
-
 import jakarta.xml.bind.annotation.XmlElement;
+import jakarta.xml.bind.annotation.XmlType;
 
 import java.io.Serializable;
 

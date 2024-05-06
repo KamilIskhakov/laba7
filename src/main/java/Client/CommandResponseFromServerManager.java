@@ -1,6 +1,5 @@
 package Client;
 
-import Client.CommandResponse.HelpResponse;
 import Client.CommandResponse.*;
 import Controler.ChannelClientServerUtil.ServerResponse;
 

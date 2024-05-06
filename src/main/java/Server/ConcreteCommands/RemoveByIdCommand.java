@@ -1,16 +1,16 @@
 package Server.ConcreteCommands;
 
-import Controler.RequestFactory.RemoveByIdRequest;
-import Controler.RequestFactory.Request;
-import Server.Command;
+import Client.RequestFactoryDTO.RemoveByIdRequestDTO;
+import Client.RequestFactoryDTO.RequestDTO;
 import Controler.ChannelClientServerUtil.ServerResponse;
+import Server.Command;
 import Server.Server;
 
 public class RemoveByIdCommand implements Command {
-    private RemoveByIdRequest request;
+    private RemoveByIdRequestDTO request;
 
-    public RemoveByIdCommand(Request request){
-        this.request = (RemoveByIdRequest) request;
+    public RemoveByIdCommand(RequestDTO request){
+        this.request = (RemoveByIdRequestDTO) request;
     }
     @Override
     public String getDescription() {

@@ -1,18 +1,18 @@
 package Server.ConcreteCommands;
 
-import Controler.RequestFactory.HelpRequest;
-import Controler.RequestFactory.Request;
-import Server.Command;
+import Client.RequestFactoryDTO.HelpRequestDTO;
+import Client.RequestFactoryDTO.RequestDTO;
 import Controler.ChannelClientServerUtil.ServerResponse;
+import Server.Command;
 
 import java.io.File;
 import java.util.ArrayList;
 
 public class HelpCommand implements Command {
-    private HelpRequest request;
+    private HelpRequestDTO request;
 
-    public HelpCommand(Request request){
-        this.request = (HelpRequest) request;
+    public HelpCommand(RequestDTO request){
+        this.request = (HelpRequestDTO) request;
     }
 
     @Override

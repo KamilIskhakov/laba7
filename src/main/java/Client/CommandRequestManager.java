@@ -1,8 +1,10 @@
 package Client;
 
-import java.util.HashMap;
-import Controler.RequestFactory.*;
+import Client.RequestFactory.*;
+import Client.RequestFactoryDTO.RequestDTO;
 import Controler.Exceptions.NotCorrectException;
+
+import java.util.HashMap;
 
 public class CommandRequestManager {
     private HashMap<String, Request> request;
@@ -26,11 +28,10 @@ public class CommandRequestManager {
         request.put("exit", new ExitRequest());
     }
 
-    public Request preparationForShipment(String commandName, String arguments){
+    public RequestDTO preparationForShipment(String commandName, String arguments){
         try {
             Request request = this.request.get(commandName);
-            request.reque(arguments);
-            return request;
+            return request.reque(arguments);
         } catch (NullPointerException | NotCorrectException exp) {
             Client.terminalOutput.println("Некорректный ввод команды");
             return null;

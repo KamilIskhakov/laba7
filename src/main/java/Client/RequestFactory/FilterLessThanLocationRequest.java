@@ -1,15 +1,19 @@
-package Controler.RequestFactory;
+package Client.RequestFactory;
+
 
 import Client.Client;
+import Client.RequestFactoryDTO.FilterLessThanLocationRequestDTO;
+import Client.RequestFactoryDTO.RequestDTO;
 import Controler.CollectionObjects.Location;
 import Controler.Exceptions.NotCorrectException;
 
 public class FilterLessThanLocationRequest implements Request {
     private Location location;
     @Override
-    public void reque(String args) throws NotCorrectException {
+    public RequestDTO reque(String args) throws NotCorrectException {
         if (args!=null){
             this.location = Client.terminalManager.MakeMeLocation();
+            return new FilterLessThanLocationRequestDTO(location);
         }else{
             throw new NotCorrectException();
         }

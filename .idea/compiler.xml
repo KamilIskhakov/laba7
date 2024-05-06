@@ -12,6 +12,7 @@
         <outputRelativeToContentRoot value="true" />
         <module name="Client" />
         <module name="labad5.3" />
+        <module name="laba6.1" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>

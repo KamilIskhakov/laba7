@@ -1,6 +1,8 @@
-package Controler.RequestFactory;
+package Client.RequestFactory;
 
 import Client.Client;
+import Client.RequestFactoryDTO.RequestDTO;
+import Client.RequestFactoryDTO.UpdateRequestDTO;
 import Controler.CollectionObjects.Person;
 import Controler.Exceptions.NotCorrectException;
 
@@ -8,7 +10,7 @@ public class UpdateRequest implements Request {
     private Person person;
     private Integer id;
     @Override
-    public void reque(String args) throws NotCorrectException {
+    public RequestDTO reque(String args) throws NotCorrectException {
         if (args!=null){
             try{
                 id = Integer.parseInt(args);
@@ -16,6 +18,7 @@ public class UpdateRequest implements Request {
                 throw new NotCorrectException();
             }
             this.person = Client.terminalManager.MakeMePerson();
+            return new UpdateRequestDTO(person,id);
         }else{
             throw new NotCorrectException();
         }

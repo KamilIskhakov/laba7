@@ -1,15 +1,15 @@
 package Server.ConcreteCommands;
 
-import Controler.RequestFactory.ExecuteScriptRequest;
-import Controler.RequestFactory.Request;
-import Server.Command;
+import Client.RequestFactoryDTO.ExecuteScriptRequestDTO;
+import Client.RequestFactoryDTO.RequestDTO;
 import Controler.ChannelClientServerUtil.ServerResponse;
+import Server.Command;
 
 public class ExecuteScriptCommand implements Command {
-    private ExecuteScriptRequest request;
+    private ExecuteScriptRequestDTO request;
 
-    public ExecuteScriptCommand(Request request){
-        this.request = (ExecuteScriptRequest) request;
+    public ExecuteScriptCommand(RequestDTO request){
+        this.request = (ExecuteScriptRequestDTO) request;
     }
     @Override
     public String getDescription() {

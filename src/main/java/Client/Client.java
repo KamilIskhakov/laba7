@@ -4,7 +4,6 @@ import Client.Terminal.ColorOutput;
 import Client.Terminal.TerminalInput;
 import Client.Terminal.TerminalManager;
 import Client.Terminal.TerminalOutput;
-
 import Controler.ChannelClientServerUtil.Checker;
 import Controler.Exceptions.IllegalAddressException;
 import Controler.Exceptions.InvalidInputException;
