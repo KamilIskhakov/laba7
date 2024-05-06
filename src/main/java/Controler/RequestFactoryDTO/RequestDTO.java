@@ -1,4 +1,4 @@
-package Client.RequestFactoryDTO;
+package Controler.RequestFactoryDTO;
 
 import java.io.Serializable;
 

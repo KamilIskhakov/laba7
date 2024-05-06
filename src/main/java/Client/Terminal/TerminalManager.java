@@ -3,7 +3,7 @@ package Client.Terminal;
 import Client.Client;
 import Client.CommandRequestManager;
 import Client.CommandResponseFromServerManager;
-import Client.RequestFactoryDTO.RequestDTO;
+import Controler.RequestFactoryDTO.RequestDTO;
 import Controler.ChannelClientServerUtil.ServerResponse;
 import Controler.CollectionObjects.*;
 import Controler.Exceptions.InvalidInputException;

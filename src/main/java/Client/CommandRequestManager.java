@@ -1,7 +1,7 @@
 package Client;
 
 import Client.RequestFactory.*;
-import Client.RequestFactoryDTO.RequestDTO;
+import Controler.RequestFactoryDTO.RequestDTO;
 import Controler.Exceptions.NotCorrectException;
 
 import java.util.HashMap;

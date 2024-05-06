@@ -1,7 +1,7 @@
 package Client.RequestFactory;
 
-import Client.RequestFactoryDTO.FilterGreaterThanHeightRequestDTO;
-import Client.RequestFactoryDTO.RequestDTO;
+import Controler.RequestFactoryDTO.FilterGreaterThanHeightRequestDTO;
+import Controler.RequestFactoryDTO.RequestDTO;
 import Controler.Exceptions.NotCorrectException;
 
 public class FilterGreaterThanHeightRequest implements Request {

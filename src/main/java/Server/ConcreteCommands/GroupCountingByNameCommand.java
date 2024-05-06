@@ -1,7 +1,7 @@
 package Server.ConcreteCommands;
 
-import Client.RequestFactoryDTO.GroupCountingByNameRequestDTO;
-import Client.RequestFactoryDTO.RequestDTO;
+import Controler.RequestFactoryDTO.GroupCountingByNameRequestDTO;
+import Controler.RequestFactoryDTO.RequestDTO;
 import Controler.ChannelClientServerUtil.ServerResponse;
 import Server.Command;
 import Server.Server;

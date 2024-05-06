@@ -1,8 +1,8 @@
 package Client.RequestFactory;
 
 import Client.Client;
-import Client.RequestFactoryDTO.RequestDTO;
-import Client.RequestFactoryDTO.UpdateRequestDTO;
+import Controler.RequestFactoryDTO.RequestDTO;
+import Controler.RequestFactoryDTO.UpdateRequestDTO;
 import Controler.CollectionObjects.Person;
 import Controler.Exceptions.NotCorrectException;
 

@@ -1,6 +1,6 @@
 package Server.Util;
 
-import Client.RequestFactoryDTO.RequestDTO;
+import Controler.RequestFactoryDTO.RequestDTO;
 import Controler.ChannelClientServerUtil.Serializer;
 import Controler.ChannelClientServerUtil.ServerResponse;
 import Server.Server;

@@ -1,7 +1,7 @@
 package Client.RequestFactory;
 
-import Client.RequestFactoryDTO.RemoveByIdRequestDTO;
-import Client.RequestFactoryDTO.RequestDTO;
+import Controler.RequestFactoryDTO.RemoveByIdRequestDTO;
+import Controler.RequestFactoryDTO.RequestDTO;
 import Controler.Exceptions.NotCorrectException;
 
 public class RemoveByIdRequest implements Request {

@@ -1,4 +1,4 @@
-package Client.RequestFactoryDTO;
+package Controler.RequestFactoryDTO;
 
 public class RemoveByIdRequestDTO implements RequestDTO {
     private Integer id;

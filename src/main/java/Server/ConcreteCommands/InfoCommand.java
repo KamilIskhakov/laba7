@@ -1,7 +1,7 @@
 package Server.ConcreteCommands;
 
-import Client.RequestFactoryDTO.InfoRequestDTO;
-import Client.RequestFactoryDTO.RequestDTO;
+import Controler.RequestFactoryDTO.InfoRequestDTO;
+import Controler.RequestFactoryDTO.RequestDTO;
 import Controler.ChannelClientServerUtil.ServerResponse;
 import Server.Command;
 import Server.Server;

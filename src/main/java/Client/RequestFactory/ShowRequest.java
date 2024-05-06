@@ -1,7 +1,7 @@
 package Client.RequestFactory;
 
-import Client.RequestFactoryDTO.RequestDTO;
-import Client.RequestFactoryDTO.ShowRequestDTO;
+import Controler.RequestFactoryDTO.RequestDTO;
+import Controler.RequestFactoryDTO.ShowRequestDTO;
 import Controler.Exceptions.NotCorrectException;
 
 public class ShowRequest implements Request {

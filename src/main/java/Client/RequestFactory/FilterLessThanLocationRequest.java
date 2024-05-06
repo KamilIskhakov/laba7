@@ -2,8 +2,8 @@ package Client.RequestFactory;
 
 
 import Client.Client;
-import Client.RequestFactoryDTO.FilterLessThanLocationRequestDTO;
-import Client.RequestFactoryDTO.RequestDTO;
+import Controler.RequestFactoryDTO.FilterLessThanLocationRequestDTO;
+import Controler.RequestFactoryDTO.RequestDTO;
 import Controler.CollectionObjects.Location;
 import Controler.Exceptions.NotCorrectException;
 

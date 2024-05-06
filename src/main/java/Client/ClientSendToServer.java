@@ -1,6 +1,6 @@
 package Client;
 
-import Client.RequestFactoryDTO.RequestDTO;
+import Controler.RequestFactoryDTO.RequestDTO;
 import Client.Terminal.ColorOutput;
 import Client.Terminal.TerminalOutput;
 import Controler.ChannelClientServerUtil.Serializer;

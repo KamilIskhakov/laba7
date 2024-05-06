@@ -1,7 +1,7 @@
 package Client.RequestFactory;
 
-import Client.RequestFactoryDTO.HelpRequestDTO;
-import Client.RequestFactoryDTO.RequestDTO;
+import Controler.RequestFactoryDTO.HelpRequestDTO;
+import Controler.RequestFactoryDTO.RequestDTO;
 import Controler.Exceptions.NotCorrectException;
 
 public class HelpRequest implements Request {

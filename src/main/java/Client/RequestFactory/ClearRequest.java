@@ -1,7 +1,7 @@
 package Client.RequestFactory;
 
-import Client.RequestFactoryDTO.ClearRequestDTO;
-import Client.RequestFactoryDTO.RequestDTO;
+import Controler.RequestFactoryDTO.ClearRequestDTO;
+import Controler.RequestFactoryDTO.RequestDTO;
 import Controler.Exceptions.NotCorrectException;
 
 public class ClearRequest implements Request {

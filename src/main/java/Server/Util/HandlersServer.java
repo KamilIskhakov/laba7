@@ -1,6 +1,6 @@
 package Server.Util;
 
-import Client.RequestFactoryDTO.RequestDTO;
+import Controler.RequestFactoryDTO.RequestDTO;
 import Controler.ChannelClientServerUtil.ServerResponse;
 
 import java.util.ArrayList;

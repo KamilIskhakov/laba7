@@ -1,6 +1,6 @@
 package Client.RequestFactory;
 
-import Client.RequestFactoryDTO.RequestDTO;
+import Controler.RequestFactoryDTO.RequestDTO;
 import Controler.Exceptions.NotCorrectException;
 
 public interface Request{

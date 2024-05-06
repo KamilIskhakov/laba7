@@ -1,6 +1,6 @@
 package Server.Util;
 
-import Client.RequestFactoryDTO.*;
+import Controler.RequestFactoryDTO.*;
 import Controler.ChannelClientServerUtil.ServerResponse;
 import Server.ConcreteCommands.*;
 

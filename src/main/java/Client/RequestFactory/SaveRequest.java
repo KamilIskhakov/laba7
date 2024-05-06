@@ -1,7 +1,7 @@
 package Client.RequestFactory;
 
-import Client.RequestFactoryDTO.RequestDTO;
-import Client.RequestFactoryDTO.SaveRequestDTO;
+import Controler.RequestFactoryDTO.RequestDTO;
+import Controler.RequestFactoryDTO.SaveRequestDTO;
 import Controler.Exceptions.NotCorrectException;
 
 public class SaveRequest implements Request {

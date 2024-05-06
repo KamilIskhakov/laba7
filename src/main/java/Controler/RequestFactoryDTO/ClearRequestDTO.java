@@ -1,4 +1,4 @@
-package Client.RequestFactoryDTO;
+package Controler.RequestFactoryDTO;
 
 
 public class ClearRequestDTO implements RequestDTO {
