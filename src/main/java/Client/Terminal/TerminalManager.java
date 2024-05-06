@@ -1,13 +1,12 @@
 package Client.Terminal;
 
 import Client.Client;
+import Controler.RequestFactory.Request;
 import Controler.CollectionObjects.Coordinates;
 import Controler.CollectionObjects.Person;
 import Client.CommandRequestManager;
-import Client.CommandFactory.Handler;
-import Client.CommandResponseManager;
-import Controler.Command;
-import Controler.RequestToServer.ServerResponse;
+import Client.CommandResponseFromServerManager;
+import Controler.ChannelClientServerUtil.ServerResponse;
 import Controler.Exceptions.InvalidInputException;
 import Controler.Exceptions.NoConnectionException;
 import Controler.Exceptions.NotCorrectException;
@@ -19,19 +18,19 @@ import java.io.IOException;
 
 public class TerminalManager {
     private final CommandRequestManager commandRequestManager;
-    private final CommandResponseManager commandResponseManager;
+    private final CommandResponseFromServerManager commandResponseFromServerManager;
     private final TerminalInput inputManager;
     private final TerminalOutput outputManager;
     private final TypeParser parser;
 
     public TerminalManager(CommandRequestManager commandRequestManager,
                            TerminalInput inputManager, TerminalOutput outputManager,
-                           CommandResponseManager commandResponseManager) {
+                           CommandResponseFromServerManager commandResponseFromServerManager) {
         this.commandRequestManager = commandRequestManager;
         this.inputManager = inputManager;
         this.outputManager = outputManager;
         this.parser = TypeParser.newBuilder().build();
-        this.commandResponseManager = commandResponseManager;
+        this.commandResponseFromServerManager = commandResponseFromServerManager;
     }
 
     public void start()  throws IOException, ClassNotFoundException, InvalidInputException, NoConnectionException, InterruptedException{
@@ -40,10 +39,10 @@ public class TerminalManager {
                 if (Client.script) {
                     if (!inputManager.scriptBox.isEmpty()) {
                         String[] readLine = inputManager.scriptBox.pop();
-                        Command handler = commandRequestManager.preparationForShipment(readLine[0], readLine[1]);
+                        Request handler = commandRequestManager.preparationForShipment(readLine[0], readLine[1]);
                         if (handler != null){
-                            ServerResponse response = (ServerResponse) Client.clientToSend.send(handler);
-                            commandResponseManager.preparationForOutput(response);
+                            ServerResponse response = (ServerResponse) Client.clientSendToServer.send(handler);
+                            commandResponseFromServerManager.preparationForOutput(response);
                         }
                     } else {
                         Client.script = false;
@@ -51,10 +50,10 @@ public class TerminalManager {
                 } else {
                     outputManager.printlnWriteCommand();
                     String[] readLine = inputManager.readTerminal();
-                    Command handler =  commandRequestManager.preparationForShipment(readLine[0], readLine[1]);
+                    Request handler =  commandRequestManager.preparationForShipment(readLine[0], readLine[1]);
                     if (handler != null){
-                        ServerResponse response = (ServerResponse) Client.clientToSend.send(handler);
-                        commandResponseManager.preparationForOutput(response);
+                        ServerResponse response = (ServerResponse) Client.clientSendToServer.send(handler);
+                        commandResponseFromServerManager.preparationForOutput(response);
                     }
                 }
             } catch (NullPointerException e) {
@@ -69,7 +68,7 @@ public class TerminalManager {
     public <T> T getAsk(String messageWellDone, Class<T> type) {
         if (Client.script) {
             try {
-                if ((inputManager.scriptBox.poll()[1]) != "") {
+                if ((inputManager.scriptBox.poll()[1]) != null) {
                     throw new NotCorrectException();
                 } else {
                     String arg = inputManager.scriptBox.poll()[0];
@@ -86,7 +85,7 @@ public class TerminalManager {
             try {
                 outputManager.println(messageWellDone);
                 String[] readLine = inputManager.readTerminal();
-                if ((readLine[1]) != "") {
+                if ((readLine[1]) != null) {
                     throw new NotCorrectException();
                 } else {
                     String arg = readLine[0];
@@ -105,7 +104,7 @@ public class TerminalManager {
     public Color getColorAsk(String messageWellDone) {
         if (Client.script) {
             try {
-                if ((inputManager.scriptBox.poll()[1]) != "") {
+                if ((inputManager.scriptBox.poll()[1])!= null) {
                     throw new NotCorrectException();
                 } else {
                     String arg = inputManager.scriptBox.poll()[0];
@@ -120,7 +119,7 @@ public class TerminalManager {
             try {
                 outputManager.println(messageWellDone);
                 String[] readLine = inputManager.readTerminal();
-                if ((readLine[1]) != "") {
+                if ((readLine[1]) != null) {
                     throw new NotCorrectException();
                 } else {
                     String arg = readLine[0];
@@ -139,7 +138,7 @@ public class TerminalManager {
     public Country getCountryAsk(String messageWellDone) {
         if (Client.script) {
             try {
-                if ((inputManager.scriptBox.poll()[1]) != "") {
+                if ((inputManager.scriptBox.poll()[1]) != null) {
                     throw new NotCorrectException();
                 } else {
                     String arg = inputManager.scriptBox.poll()[0];
@@ -154,7 +153,7 @@ public class TerminalManager {
             try {
                 outputManager.println(messageWellDone);
                 String[] readLine = inputManager.readTerminal();
-                if ((readLine[1]) != "") {
+                if ((readLine[1]) != null) {
                     throw new NotCorrectException();
                 } else {
                     String arg = readLine[0];

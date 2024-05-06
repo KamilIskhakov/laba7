@@ -1,7 +1,7 @@
 package Client.CommandResponse;
 
 import Client.Client;
-import Controler.RequestToServer.ServerResponse;
+import Controler.ChannelClientServerUtil.ServerResponse;
 
 public class FilterGreaterThanHeightResponse implements Response{
     @Override

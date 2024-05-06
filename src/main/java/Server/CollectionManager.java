@@ -108,7 +108,7 @@ public class CollectionManager {
         personcollection.stream().map(person -> {
             if (Objects.equals(person.getId(), id)) {
                 userPerson.setCreationDate(new Date());
-                userPerson.setId(id); // Устанавливаем ID обратно, так как он был заменен на generateId()
+                userPerson.setId(id);// Устанавливаем ID обратно, так как он был заменен на generateId()
                 return userPerson; // Возвращаем обновленный объект пользователя
             } else {
                 return person; // Возвращаем тот же объект, если ID не совпадает

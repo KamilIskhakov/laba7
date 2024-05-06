@@ -1,7 +1,7 @@
 package Client.CommandResponse;
 
 import Client.Client;
-import Controler.RequestToServer.ServerResponse;
+import Controler.ChannelClientServerUtil.ServerResponse;
 
 public class ExecuteScriptResponse implements Response{
     @Override

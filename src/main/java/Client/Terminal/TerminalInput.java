@@ -25,7 +25,7 @@ public class TerminalInput {
             if (readline.contains(" ")) {
                 return readline.split(" ");
             } else {
-                return new String[]{readline,""};
+                return new String[]{readline,null};
 
             }
         } catch (Exception e) {

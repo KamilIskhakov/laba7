@@ -1,8 +1,9 @@
 package Server;
 
-import Controler.RequestToServer.Checker;
+import Controler.ChannelClientServerUtil.Checker;
 import Controler.Exceptions.IllegalAddressException;
-import Server.Response.Receiver;
+import Server.Util.Receiver;
+import Server.Util.ServerRequestFromClientManager;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -15,6 +16,7 @@ public final class Server {
     private static final int BUFFER_SIZE = 2048;
     public static final Logger LOGGER = LogManager.getLogger(Server.class);
     private static final int NUMBER_OF_ARGUMENTS = 2;
+    public static ServerRequestFromClientManager serverRequestFromClientManager;
 
     private Server() {
         throw new UnsupportedOperationException("This is an utility class and can not be instantiated");
@@ -31,6 +33,7 @@ public final class Server {
                 try {
                     DatagramSocket server = new DatagramSocket(address);
                     Receiver receiver = new Receiver(server, BUFFER_SIZE, LOGGER);
+                    serverRequestFromClientManager = new ServerRequestFromClientManager();
                     while (true) {
                         receiver.receive();
                     }
