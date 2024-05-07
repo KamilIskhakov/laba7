@@ -1,0 +1,54 @@
+package Groupld.Server.ConcreteCommands;
+
+import Groupld.Controler.RequestFactoryDTO.HelpRequestDTO;
+import Groupld.Controler.RequestFactoryDTO.RequestDTO;
+import Groupld.Controler.ChannelClientServerUtil.ServerResponse;
+import Groupld.Server.Command;
+
+import java.io.File;
+import java.util.ArrayList;
+
+public class HelpCommand implements Command {
+    private HelpRequestDTO request;
+
+    public HelpCommand(RequestDTO request){
+        this.request = (HelpRequestDTO) request;
+    }
+
+    @Override
+    public String getDescription() {
+        return getName() + "вывести справку по доступным командам";
+    }
+
+    @Override
+    public String getName() {
+        return "help";
+    }
+
+    @Override
+    public ServerResponse execute() {
+        ArrayList<String[]> help_out = new ArrayList<>();
+        File directory = new File("src/main/java/Controler/ConcreteCommands"); //ссылка папку, в которой хранятся все команды
+        String[] commandClasses = directory.list(); //массив из названий всех элементов в папке
+
+        for (String filename : commandClasses) {
+            if (filename.endsWith(".java")) {
+                String[] com_desc = new String[2];
+                com_desc[0] = filename.replace(".java", "").toLowerCase(); //название команды
+                try {
+                    Class cls = Class.forName("Commands." + filename.replace(".java", ""));
+                    Command commandClassObject = (Command) cls.getConstructor().newInstance();
+                    com_desc[1] = commandClassObject.getDescription();
+                } catch (Exception ignored) {
+                }
+                help_out.add(com_desc);
+            }
+        }
+        String output = "";
+        output += "Доступные команды:\n";
+        for (String[] comhelp : help_out) {
+            output += "   " + comhelp[0] + " : " + comhelp[1] + "\n";
+        }
+        return new ServerResponse(getName(), output);
+    }
+}

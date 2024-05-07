@@ -11,13 +11,12 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="Client" />
+        <module name="Server" />
         <module name="labad5.3" />
-        <module name="laba6.1" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="java" target="1.5" />
-      <module name="Server" target="17" />
       <module name="src" target="1.5" />
     </bytecodeTargetLevel>
   </component>
