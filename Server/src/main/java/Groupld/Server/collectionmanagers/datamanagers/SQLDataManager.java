@@ -86,7 +86,7 @@ public class SQLDataManager {
         return person;
     }
 
-    public boolean removeByKey(long key) {
+    public boolean removeByKey(Integer key) {
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM "
                     + peopleTableName + " WHERE key=?");
@@ -99,16 +99,16 @@ public class SQLDataManager {
         return true;
     }
 
-    public Long add(long key, Person person) {
-        long id;
+    public Integer add(Integer key, Person person) {
+        Integer id;
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO " + peopleTableName
                     + "(id,name,x,y,height,weight,color,country,x_loc,y_loc,z_loc,name_loc,"
                     + "creation_date,owner,key) VALUES (default,?,?,?,?,?,?,?,?,?,?,?,?,?,?) RETURNING id");
             prepareStatement(preparedStatement, person);
             preparedStatement.setTimestamp(CREATION_DATE_INDEX, new Timestamp(person.getCreationDate().getTime()));
-            preparedStatement.setString(OWNER_INDEX, person.getName()); // здесь должно быть имя владельца
-            preparedStatement.setLong(KEY_INDEX, key);
+            preparedStatement.setString(OWNER_INDEX, person.getOwnerUsername()); // здесь должно быть имя владельца
+            preparedStatement.setInt(KEY_INDEX, key);
             ResultSet result = preparedStatement.executeQuery();
             result.next();
             id = result.getInt("id");

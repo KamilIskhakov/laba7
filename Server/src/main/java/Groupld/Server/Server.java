@@ -5,7 +5,7 @@ import Groupld.Controler.Exceptions.IllegalAddressException;
 import Groupld.Server.Util.ServerRequestFromClientManager;
 import Groupld.Server.Util.Receiver;
 import Groupld.Server.Util.UsersHandler;
-import Groupld.Server.collectionmanagers.SQLCollectionManager;
+import Groupld.Server.collectionmanagers.*;
 import Groupld.Server.collectionmanagers.datamanagers.SQLDataManager;
 import Groupld.Server.usersmanagers.SQLUserManager;
 import Groupld.Server.usersmanagers.tablecreators.SQLUserTableCreator;

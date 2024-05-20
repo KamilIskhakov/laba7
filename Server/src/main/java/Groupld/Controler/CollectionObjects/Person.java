@@ -1,6 +1,5 @@
 package Groupld.Controler.CollectionObjects;
 
-
 import jakarta.xml.bind.annotation.XmlAttribute;
 import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlRootElement;
@@ -21,6 +20,7 @@ public class Person implements Comparable<Location>, Serializable {
     private Color eyeColor;
     private Country nationality; //no null
     private Location location;
+    private String ownerUsername;
     private Integer id; //no null
     private Date creationDate; //no null
 
@@ -110,6 +110,10 @@ public class Person implements Comparable<Location>, Serializable {
     public Location getLocation() {
         return location;
     }
+    @XmlElement
+    public String getOwnerUsername(){
+        return ownerUsername;
+    }
 
     @XmlAttribute
     public Integer getId() {
@@ -120,6 +124,7 @@ public class Person implements Comparable<Location>, Serializable {
     public Date getCreationDate() {
         return creationDate;
     }
+
 
     public int compareTo(Person personObj) {
         return id.compareTo(personObj.getId());
@@ -152,6 +157,10 @@ public class Person implements Comparable<Location>, Serializable {
 
     public void setLocation(Location location) {
         this.location = location;
+    }
+
+    public void setOwnerUsername(String ownerUsername) {
+        this.ownerUsername = ownerUsername;
     }
 
     public String toString() {

@@ -24,7 +24,7 @@ public class InfoCommand implements Command {
 
     @Override
     public ServerResponse execute() {
-        return new ServerResponse(getName(), Server.collectionManager.collectionInfo());
+        return new ServerResponse(Server.collectionManager.collectionInfo(), Server.collectionManager.collectionInfo());
     }
 
 }
