@@ -10,9 +10,10 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="labad5.3" />
+        <module name="Client (1) (Groupld)" />
         <module name="Client" />
         <module name="Server" />
-        <module name="labad5.3" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>

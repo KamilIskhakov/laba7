@@ -61,7 +61,25 @@ public class TerminalManager {
         }
     }
 
-
+    private void authorize() throws InvalidInputException, NoConnectionException, IOException, InterruptedException,
+            ClassNotFoundException {
+        boolean isAuthorized = false;
+        do {
+            outputManager.print("enter username:");
+            String newUsername = inputManager.readTerminal()[0];
+            outputManager.print("enter password:");
+            String newPassword = inputManager.readTerminal()[0];
+            PullingResponse response = requester.sendPullingRequest(newUsername, newPassword);
+            if (response.getRegistrationCode() == RegistrationCode.AUTHORIZED
+                    || response.getRegistrationCode() == RegistrationCode.REGISTERED) {
+                isAuthorized = true;
+                commands = response.getRequirements();
+                username = newUsername;
+                password = newPassword;
+            }
+            outputManager.printlnImportantMessage(response.getRegistrationCode().getMessage());
+        } while (!isAuthorized);
+    }
 
     public <T> T getAsk(String messageWellDone, Class<T> type) {
         if (Client.script) {
