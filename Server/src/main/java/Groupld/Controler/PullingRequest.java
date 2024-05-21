@@ -1,8 +1,10 @@
 package Groupld.Controler;
 
+import Groupld.Controler.RequestFactoryDTO.RequestDTO;
+
 import java.io.Serializable;
 
-public class PullingRequest implements Serializable {
+public class PullingRequest implements Serializable, RequestDTO {
     private final String username;
     private final String password;
 

@@ -1,8 +1,10 @@
 package Groupld.Controler.ChannelClientServerUtil;
 
+import Groupld.Controler.Response;
+
 import java.io.Serializable;
 
-public class ServerResponse implements Serializable {
+public class ServerResponse implements Serializable, Response {
     private final String message;
     private final String commandName;
 

@@ -11,7 +11,7 @@ public final class PasswordEncoder {
     public static String encode(String password) {
         String hash = null;
         try {
-            MessageDigest messageDigest = MessageDigest.getInstance("MD2");
+            MessageDigest messageDigest = MessageDigest.getInstance("SHA-384");
             messageDigest.update(password.getBytes());
             byte[] digested = messageDigest.digest();
             hash = DatatypeConverter.printHexBinary(digested);

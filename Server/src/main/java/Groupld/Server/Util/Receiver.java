@@ -4,6 +4,7 @@ import Groupld.Controler.PullingRequest;
 import Groupld.Controler.RequestFactoryDTO.RequestDTO;
 import Groupld.Controler.ChannelClientServerUtil.Serializer;
 import Groupld.Controler.ChannelClientServerUtil.ServerResponse;
+import Groupld.Controler.Response;
 import Groupld.Server.Server;
 import org.apache.logging.log4j.Logger;
 
@@ -34,13 +35,13 @@ public class Receiver {
                 InetAddress client = receivedData.getClient();
                 int port = receivedData.getPort();
                 requestProcessingPool.submit(() -> {
-                    ServerResponse response = processRequest(request);
+                    Response response = processRequest(request);
                     responseSendingPool.submit(() -> sendResponse(response, client, port));
                 });
             }
         });
     }
-    private ServerResponse processRequest(RequestDTO received) {
+    private Response processRequest(RequestDTO received) {
         if (received instanceof PullingRequest) {
             return usersHandler.authorization((PullingRequest) received);
         } else {
@@ -48,7 +49,7 @@ public class Receiver {
             }
     }
 
-    private boolean sendResponse(ServerResponse response, InetAddress client, int port) {
+    private boolean sendResponse(Response response, InetAddress client, int port) {
         try {
             byte[] bytesSending = Serializer.serialize(response);
             DatagramPacket packet = new DatagramPacket(bytesSending, bytesSending.length, client, port);

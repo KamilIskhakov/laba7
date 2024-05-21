@@ -34,7 +34,7 @@ public class SQLCollectionManager extends CollectionManager {
 
     @Override
     public boolean updateID(Integer id, Person newInstance) {
-        Person oldInstance = super.getById(id);
+        Person oldInstance = getById(id);
         if (!oldInstance.getOwnerUsername().equals(newInstance.getOwnerUsername())) { // надо дописать
             return false;
         }

@@ -8,6 +8,7 @@ public class ReceivedData {
     private final RequestDTO request;
     private final InetAddress client;
     private final int port;
+    private String username;
 
     public ReceivedData(RequestDTO request, InetAddress client, int port) {
         this.request = request;
@@ -25,5 +26,9 @@ public class ReceivedData {
 
     public int getPort() {
         return port;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 }

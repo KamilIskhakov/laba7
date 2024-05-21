@@ -2,10 +2,11 @@ package Groupld.Server;
 
 import Groupld.Controler.ChannelClientServerUtil.Checker;
 import Groupld.Controler.Exceptions.IllegalAddressException;
+import Groupld.Server.Util.JWTService;
 import Groupld.Server.Util.ServerRequestFromClientManager;
 import Groupld.Server.Util.Receiver;
 import Groupld.Server.Util.UsersHandler;
-import Groupld.Server.collectionmanagers.*;
+import Groupld.Server.collectionmanagers.SQLCollectionManager;
 import Groupld.Server.collectionmanagers.datamanagers.SQLDataManager;
 import Groupld.Server.usersmanagers.SQLUserManager;
 import Groupld.Server.usersmanagers.tablecreators.SQLUserTableCreator;
@@ -22,14 +23,15 @@ import java.util.Locale;
 import java.util.Scanner;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.locks.ReentrantLock;
 
 public final class Server {
 
+    public static SQLCollectionManager sqlCollectionManager;
+
     public static CollectionManager collectionManager;
     private static final int BUFFER_SIZE = 2048;
-    private static final Logger LOGGER = LogManager.getLogger(Server.class);
+    public static final Logger LOGGER = LogManager.getLogger(Server.class);
     private static final int NUMBER_OF_ARGUMENTS = 7;
     private static final int INDEX_HOST = 0;
     private static final int INDEX_PORT = 1;
@@ -68,10 +70,10 @@ public final class Server {
                     SQLDataManager sqlDataManager = new SQLDataManager(connection, DATA_TABLE_NAME, USER_TABLE_NAME, LOGGER);
                     SQLUserTableCreator sqlUserTableCreator = new SQLUserTableCreator(connection, USER_TABLE_NAME, LOGGER);
                     SQLUserManager sqlUserManager = new SQLUserManager(new ReentrantLock(), sqlUserTableCreator.init(), connection, USER_TABLE_NAME, LOGGER);
-                    SQLCollectionManager collectionManager = new SQLCollectionManager(sqlDataManager.initCollection(), sqlDataManager);
+                    sqlCollectionManager = new SQLCollectionManager(sqlDataManager.initCollection(), sqlDataManager);
                     serverRequestFromClientManager = new ServerRequestFromClientManager();
-                    Executor executor = new Executor(collectionManager, LOGGER);
-                    UsersHandler usersHandler = new UsersHandler(sqlUserManager, LOGGER);
+                    JWTService jwtService = new JWTService();
+                    UsersHandler usersHandler = new UsersHandler(sqlUserManager, LOGGER, jwtService);
                     Receiver receiver = new Receiver(server, BUFFER_SIZE, LOGGER, usersHandler);
                     receiver.start(REQUEST_READING_POOL, REQUEST_PROCESSING_POOL, RESPONSE_SENDING_POOL);
 

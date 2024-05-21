@@ -1,61 +1,59 @@
 package Groupld.Server.Util;
 
-import Groupld.Controler.ChannelClientServerUtil.ServerResponse;
 import Groupld.Controler.PullingRequest;
+import Groupld.Controler.PullingResponse;
 import Groupld.Controler.RequestFactoryDTO.RequestDTO;
+import Groupld.Controler.Response;
 import Groupld.Server.PasswordEncoder;
 import Groupld.Server.Server;
 import Groupld.Server.usersmanagers.SQLUserManager;
 import org.apache.logging.log4j.Logger;
 
-import java.util.HashMap;
-
 public class UsersHandler {
     private final SQLUserManager sqlUserManager;
     private final Logger logger;
+    private final JWTService jwtService;
 
-    public UsersHandler(SQLUserManager sqlUserManager, Logger logger) {
+    public UsersHandler(SQLUserManager sqlUserManager, Logger logger, JWTService jwtService) {
         this.sqlUserManager = sqlUserManager;
         this.logger = logger;
+        this.jwtService = jwtService;
     }
-    public ServerResponse authorization(PullingRequest request) {
+    public PullingResponse authorization(PullingRequest request) {
         User newUser = new User(request.getUsername(), PasswordEncoder.encode(request.getPassword()));
         if (sqlUserManager.isUsernameExists(newUser.getUsername())) {
             if (sqlUserManager.checkPassword(newUser)) {
                 logger.info(() -> "user " + newUser.getUsername() + " authorized");
-                return Server.serverRequestFromClientManager.getServerResponse(request);
+                return new PullingResponse(jwtService.generateJWTToken(request.getUsername()),"добро пожаловать" +
+                        ", " + request.getUsername() +  " вход в Lab7 прошел успешно");
             } else {
                 logger.info("failed login attempt");
-                return Server.serverRequestFromClientManager.getServerResponse(request);
+                return new PullingResponse(null,"не получилось войти в систему, неправильный логин или пароль");
             }
         } else {
             sqlUserManager.registerUser(newUser);
             logger.info(() -> "user " + newUser.getUsername() + " registered");
+            return new PullingResponse(jwtService.generateJWTToken(request.getUsername()),"добро пожаловать" +
+                    ", " + request.getUsername() +  " регистрация в Lab7 прошла успешно");
+        }
+    }
+
+    public Response handle(RequestDTO request) {
+        String token = request.getToken();
+        if (jwtService.verifyJWTToken(token)) {
+            logger.info("user " + jwtService.decryptUserJWTToken(token) + " has time out tocken");
             return Server.serverRequestFromClientManager.getServerResponse(request);
-        }
-    }
 
-    public ServerResponse handle(RequestDTO request) {
-        User tockenPolicy = new User(JWTTocken jwttocken);
-        if (tockenPolicy.norm()) {
-            if (tockenPolicy.notFinished()) {
-                logger.info(() -> "user " + tockenPolicy.getUserID() + " authorized");
-                return Server.serverRequestFromClientManager.getServerResponse(request);
-            } else {
-                logger.info("user " + tockenPolicy.getUserID() + " has time out tocken");
-                return new PullingResponse(RegistrationCode.NewTocken);
-            }
         } else {
-            sqlUserManager.registerUser(newUser);
-            logger.info(() -> "user " + tockenPolicy.getUserID() + " has not deistvitelnay tocken");
-            return new PullingResponse(commands, RegistrationCode.lol);
+            logger.info(() -> "user " + jwtService.decryptUserJWTToken(token) + " has not deistvitelnay tocken");
+            return new PullingResponse(null,"похоже, что время вашей сессии закончилось");
         }
     }
 
-    public boolean checkUser(User user) {
+    /*public boolean checkUser(User user) {
         if (!sqlUserManager.isUsernameExists(user.getUsername())) {
             return false;
         }
         return sqlUserManager.checkPassword(user);
-    }
+    }*/
 }

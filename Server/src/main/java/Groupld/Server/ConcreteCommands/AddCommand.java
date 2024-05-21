@@ -25,7 +25,7 @@ public class AddCommand implements Command {
 
     @Override
     public ServerResponse execute(){
-        Server.collectionManager.addToCollection(request.getPerson());
+        Server.sqlCollectionManager.addToCollection(request.getPerson());
         return new ServerResponse(getName());
     }
 }

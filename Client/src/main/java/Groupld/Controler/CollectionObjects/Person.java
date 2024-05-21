@@ -175,6 +175,7 @@ public class Person implements Comparable<Location>, Serializable {
         info += "\n Цвет глаз: " + eyeColor;
         info += "\n Страна проживания: " + nationality;
         info += "\n Местоположение: " + location;
+        info += "\n владелец" + ownerUsername;
         info += "\n id: " + id;
         return info;
     }
