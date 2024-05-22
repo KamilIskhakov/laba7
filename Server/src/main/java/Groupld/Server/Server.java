@@ -24,6 +24,7 @@ import java.util.Locale;
 import java.util.Scanner;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.locks.ReentrantLock;
 
 public final class Server {
@@ -42,9 +43,9 @@ public final class Server {
     private static final String USER_TABLE_NAME = "users";
     private static final String DATA_TABLE_NAME = "people";
     private static final Scanner SCANNER = new Scanner(System.in);
-    private static final ExecutorService REQUEST_READING_POOL = Executors.newFixedThreadPool(10);
-    private static final ExecutorService REQUEST_PROCESSING_POOL = Executors.newCachedThreadPool();
-    private static final ExecutorService RESPONSE_SENDING_POOL = Executors.newCachedThreadPool();
+    private static final ExecutorService REQUEST_READING_POOL = ForkJoinPool.commonPool();
+    private static final ExecutorService REQUEST_PROCESSING_POOL = ForkJoinPool.commonPool();
+    private static final ExecutorService RESPONSE_SENDING_POOL = ForkJoinPool.commonPool();
     public static ServerRequestFromClientManager serverRequestFromClientManager;
 
     private Server() {

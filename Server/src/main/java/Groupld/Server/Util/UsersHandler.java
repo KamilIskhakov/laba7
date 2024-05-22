@@ -22,7 +22,7 @@ public class UsersHandler {
     }
     public PullingResponse authorization(PullingRequest request) {
         User newUser = new User(request.getUsername(), PasswordEncoder.encode(request.getPassword()));
-        if (sqlUserManager.isUsernameExists(newUser.getUsername())) {
+        if (sqlUserManager.isUsernameExists(newUser.getUsername()) & request.getOperation().equals("войти")) {
             if (sqlUserManager.checkPassword(newUser)) {
                 logger.info(() -> "user " + newUser.getUsername() + " authorized");
                 return new PullingResponse(jwtService.generateJWTToken(request.getUsername()),"добро пожаловать" +
@@ -31,6 +31,9 @@ public class UsersHandler {
                 logger.info("failed login attempt");
                 return new PullingResponse(null,"не получилось войти в систему, неправильный логин или пароль");
             }
+        } else if (sqlUserManager.isUsernameExists(newUser.getUsername()) & request.getOperation().equals("регистрация")) {
+            logger.info("login just exists, failed registration");
+            return new PullingResponse(null,"данный логин уже занят");
         } else {
             sqlUserManager.registerUser(newUser);
             logger.info(() -> "user " + newUser.getUsername() + " registered");
@@ -46,7 +49,7 @@ public class UsersHandler {
             return Server.serverRequestFromClientManager.getServerResponse(request);
 
         } else {
-            logger.info(() -> "user " + jwtService.decryptUserJWTToken(token) + " has not correct token");
+            logger.info(() -> "user " + " has not correct token");
             return new ServerResponse("token_finished","похоже, что время вашей сессии закончилось",null);
         }
     }

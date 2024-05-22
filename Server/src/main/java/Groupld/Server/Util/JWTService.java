@@ -18,7 +18,7 @@ import java.util.Date;
 
 public class JWTService {
 
-    private long DEFAULT_EXPIRE_IN_SECONDS = 60*2; // 2 минуты
+    private long DEFAULT_EXPIRE_IN_SECONDS = 15; // 2 минуты
     private  Key key;
     private PublicKey publicKey;
 
