@@ -23,7 +23,7 @@ public class ExitCommand implements Command {
 
     @Override
     public ServerResponse execute() {
-        new SaveCommand().execute();
-        return new ServerResponse(getName());
+        /*new SaveCommand().execute();*/
+        return new ServerResponse(getName(), request.getToken());
     }
 }

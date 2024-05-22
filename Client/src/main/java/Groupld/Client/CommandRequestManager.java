@@ -2,6 +2,7 @@ package Groupld.Client;
 
 import Groupld.Client.RequestFactory.*;
 import Groupld.Client.RequestFactory.Request;
+import Groupld.Client.Terminal.TerminalManager;
 import Groupld.Controler.Exceptions.NotCorrectException;
 import Groupld.Controler.RequestFactoryDTO.RequestDTO;
 
@@ -32,7 +33,9 @@ public class CommandRequestManager {
     public RequestDTO preparationForShipment(String commandName, String arguments){
         try {
             Request request = this.request.get(commandName);
-            return request.reque(arguments);
+            RequestDTO requestDTO = request.reque(arguments);
+            requestDTO.setToken(TerminalManager.token);
+            return requestDTO;
         } catch (NullPointerException | NotCorrectException exp) {
             Client.terminalOutput.println("Некорректный ввод команды");
             return null;

@@ -13,26 +13,26 @@ import java.security.PublicKey;
 import java.security.cert.Certificate;
 import java.security.cert.CertificateFactory;
 import java.time.Instant;
+import java.util.Calendar;
 import java.util.Date;
 
 public class JWTService {
 
-    private long DEFAULT_EXPIRE_IN_SECONDS = 60*5; // 5 минут
+    private long DEFAULT_EXPIRE_IN_SECONDS = 60*2; // 2 минуты
     private  Key key;
     private PublicKey publicKey;
 
-    private String username;
     public JWTService(){
         String jksPassword = "gruzia123";
         KeyStore ks = null;
         try {
             ks = KeyStore.getInstance(KeyStore.getDefaultType());
-            ks.load(new FileInputStream("Sehanbotest.jks"), jksPassword.toCharArray());
+            ks.load(new FileInputStream("/Users/kamiliskhakov/IdeaProjects/laba7/Server/keyStore/hanbotest.jks"), jksPassword.toCharArray());
             Key key = ks.getKey("hanbotest", jksPassword.toCharArray());
             this.key = key;
-            this.publicKey = loadPublicKey("");
+            this.publicKey = loadPublicKey("/Users/kamiliskhakov/IdeaProjects/laba7/Server/keyStore/hanbotest.cer");
         } catch (Exception e) {
-            Server.LOGGER.info(username + "got algorithm key for JWT token" );
+            Server.LOGGER.info("exception with JWT token" );
         }
     }
 
@@ -40,7 +40,6 @@ public class JWTService {
         long now = new Date().getTime();
         long expireTime = now + (DEFAULT_EXPIRE_IN_SECONDS * 1000);
         Date expireDate = new Date(expireTime);
-
         String jwtToken = Jwts.builder()
                 .setSubject(username)
                 .setAudience("Lab7")
@@ -48,7 +47,6 @@ public class JWTService {
                 .setIssuedAt(Date.from(Instant.now()))
                 .signWith(SignatureAlgorithm.RS512, key)
                 .compact();
-
         return jwtToken;
     }
 
@@ -61,13 +59,14 @@ public class JWTService {
         return retVal;
     }
     public boolean verifyJWTToken(String token){
+        Jws<Claims> x =  null;
         try {
-            Jwts.parser().setSigningKey(publicKey).parseClaimsJws(token);
+             x =Jwts.parser().setSigningKey(publicKey).parseClaimsJws(token);
         }catch (Exception e){
-            Server.LOGGER.info(username + "has not correct JWT token" );
+            Server.LOGGER.info( "has not correct JWT token" );
             return false;
         }
-        Server.LOGGER.info(username +"gets correct JWT token" );
+        Server.LOGGER.info(x.getBody().getSubject() + "gets correct JWT token" );
         return true;
     }
     public String decryptUserJWTToken(String token) {

@@ -24,7 +24,7 @@ public class RemoveByIdCommand implements Command {
 
     @Override
     public ServerResponse execute() {
-        Server.collectionManager.removeCollectionById(request.getId());
-        return new ServerResponse(getName());
+        /*Server.collectionManager.removeCollectionById(request.getId());*/
+        return new ServerResponse(getName(), Server.sqlCollectionManager.toString(), request.getToken());
     }
 }

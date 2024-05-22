@@ -23,7 +23,7 @@ public class ExecuteScriptCommand implements Command {
 
     @Override
     public ServerResponse execute() {
-        return new ServerResponse(getName(),request.getFilepath());
+        return new ServerResponse(getName(),request.getFilepath(), request.getToken());
     }
 
 

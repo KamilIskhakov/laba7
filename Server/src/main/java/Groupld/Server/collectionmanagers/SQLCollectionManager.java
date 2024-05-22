@@ -22,13 +22,11 @@ public class SQLCollectionManager extends CollectionManager {
     }
 
     @Override
-    public void addToCollection(Integer key, Person person) {
+    public void addToCollection(Person person) {
         person.setCreationDate(new Date());
-        Integer id = sqlDataManager.add(key, person);
-        if (id != null) {
-            person.setId(id);
-            collection.put(key, person);
-        }
+        Integer id = sqlDataManager.add(person);
+        person.setId(id);
+        collection.put(id,person);
     }
 
 
@@ -53,7 +51,7 @@ public class SQLCollectionManager extends CollectionManager {
 
     @Override
     public boolean remove(Integer key) {
-        if (!sqlDataManager.removeByKey(key)) {
+        if (!sqlDataManager.removeById(key)) {
             return false;
         }
         collection.remove(key);
@@ -75,7 +73,7 @@ public class SQLCollectionManager extends CollectionManager {
         List<Integer> keys = collection.entrySet().stream().filter(e -> e.getValue().compareTo(person) > 0
                 && e.getValue().getOwnerUsername().equals(username)).map(Map.Entry::getKey).collect(Collectors.toList());
         keys.forEach(k -> {
-            if (sqlDataManager.removeByKey(k)) {
+            if (sqlDataManager.removeById(k)) {
                 collection.remove(k);
             } else {
                 undeletedItems.getAndIncrement();
@@ -91,7 +89,7 @@ public class SQLCollectionManager extends CollectionManager {
         List<Integer> keys = collection.entrySet().stream().filter(e -> e.getKey() < key
                 && e.getValue().getOwnerUsername().equals(username)).map(Map.Entry::getKey).collect(Collectors.toList());
         keys.forEach(k -> {
-            if (sqlDataManager.removeByKey(k)) {
+            if (sqlDataManager.removeById(k)) {
                 collection.remove(k);
             } else {
                 undeletedItems.getAndIncrement();

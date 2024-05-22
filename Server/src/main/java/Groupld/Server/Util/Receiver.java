@@ -35,7 +35,7 @@ public class Receiver {
                 InetAddress client = receivedData.getClient();
                 int port = receivedData.getPort();
                 requestProcessingPool.submit(() -> {
-                    Response response = processRequest(request);
+                    Object response = processRequest(request);
                     responseSendingPool.submit(() -> sendResponse(response, client, port));
                 });
             }
@@ -49,7 +49,7 @@ public class Receiver {
             }
     }
 
-    private boolean sendResponse(Response response, InetAddress client, int port) {
+    private boolean sendResponse(Object response, InetAddress client, int port) {
         try {
             byte[] bytesSending = Serializer.serialize(response);
             DatagramPacket packet = new DatagramPacket(bytesSending, bytesSending.length, client, port);

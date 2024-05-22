@@ -24,6 +24,6 @@ public class ShowCommand implements Command {
 
     @Override
     public ServerResponse execute(){
-        return new ServerResponse(getName(), Server.collectionManager.showCollection());
+        return new ServerResponse(getName(), Server.sqlCollectionManager.toString(), request.getToken());
     }
 }

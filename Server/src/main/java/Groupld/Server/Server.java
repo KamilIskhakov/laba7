@@ -6,6 +6,7 @@ import Groupld.Server.Util.JWTService;
 import Groupld.Server.Util.ServerRequestFromClientManager;
 import Groupld.Server.Util.Receiver;
 import Groupld.Server.Util.UsersHandler;
+import Groupld.Server.collectionmanagers.CollectionManager;
 import Groupld.Server.collectionmanagers.SQLCollectionManager;
 import Groupld.Server.collectionmanagers.datamanagers.SQLDataManager;
 import Groupld.Server.usersmanagers.SQLUserManager;
@@ -27,9 +28,7 @@ import java.util.concurrent.locks.ReentrantLock;
 
 public final class Server {
 
-    public static SQLCollectionManager sqlCollectionManager;
-
-    public static CollectionManager collectionManager;
+    public static CollectionManager sqlCollectionManager;
     private static final int BUFFER_SIZE = 2048;
     public static final Logger LOGGER = LogManager.getLogger(Server.class);
     private static final int NUMBER_OF_ARGUMENTS = 7;
@@ -40,8 +39,8 @@ public final class Server {
     private static final int INDEX_DB_NAME = 4;
     private static final int INDEX_DB_USERNAME = 5;
     private static final int INDEX_DB_PASSWORD = 6;
-    private static final String USER_TABLE_NAME = "spacemarinesusers";
-    private static final String DATA_TABLE_NAME = "spacemarines";
+    private static final String USER_TABLE_NAME = "users";
+    private static final String DATA_TABLE_NAME = "people";
     private static final Scanner SCANNER = new Scanner(System.in);
     private static final ExecutorService REQUEST_READING_POOL = Executors.newFixedThreadPool(10);
     private static final ExecutorService REQUEST_PROCESSING_POOL = Executors.newCachedThreadPool();
@@ -59,10 +58,10 @@ public final class Server {
             // имя хоста указывается первой строкой аргумента командной строки, порт – второй
             final InetSocketAddress address = Checker.checkAddress(args[INDEX_HOST], args[INDEX_PORT]);
             LOGGER.info(() -> "set " + address + " address");
+            // jdbc:postgresql://localhost:5432/postgres jdbc:postgresql://localhost:5432/postgres
             final String dataBaseUrl = "jdbc:postgresql://" + args[INDEX_DB_HOSTNAME] + ":" + args[INDEX_DB_PORT] + "/" + args[INDEX_DB_NAME];
             final String dataBaseUsername = args[INDEX_DB_USERNAME];
             final String dataBasePassword = args[INDEX_DB_PASSWORD];
-            collectionManager = CollectionCreator.load("save.xml");
                 try (Connection connection = DriverManager.getConnection(dataBaseUrl, dataBaseUsername, dataBasePassword);
                      DatagramSocket server = new DatagramSocket(address)) {
                     LOGGER.info(() -> "connected to the database " + dataBaseUrl);
@@ -87,6 +86,7 @@ public final class Server {
                         receiver.receive();
                     }
                 }catch (IOException | SQLException e) {
+                    e.printStackTrace();
                     LOGGER.error(e);
                 }
 

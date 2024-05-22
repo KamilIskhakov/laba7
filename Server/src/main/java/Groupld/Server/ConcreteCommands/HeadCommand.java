@@ -24,7 +24,7 @@ public class HeadCommand implements Command {
 
     @Override
     public ServerResponse execute() {
-        return new ServerResponse(getName(),Server.collectionManager.showHead());
+        return new ServerResponse(getName(), Server.sqlCollectionManager.toString(), request.getToken());
     }
 
 }

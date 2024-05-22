@@ -1,5 +1,6 @@
 package Groupld.Server.Util;
 
+import Groupld.Controler.ChannelClientServerUtil.ServerResponse;
 import Groupld.Controler.PullingRequest;
 import Groupld.Controler.PullingResponse;
 import Groupld.Controler.RequestFactoryDTO.RequestDTO;
@@ -25,7 +26,7 @@ public class UsersHandler {
             if (sqlUserManager.checkPassword(newUser)) {
                 logger.info(() -> "user " + newUser.getUsername() + " authorized");
                 return new PullingResponse(jwtService.generateJWTToken(request.getUsername()),"добро пожаловать" +
-                        ", " + request.getUsername() +  " вход в Lab7 прошел успешно");
+                        ", " + request.getUsername() +  ", вход в Lab7 прошел успешно");
             } else {
                 logger.info("failed login attempt");
                 return new PullingResponse(null,"не получилось войти в систему, неправильный логин или пароль");
@@ -34,19 +35,19 @@ public class UsersHandler {
             sqlUserManager.registerUser(newUser);
             logger.info(() -> "user " + newUser.getUsername() + " registered");
             return new PullingResponse(jwtService.generateJWTToken(request.getUsername()),"добро пожаловать" +
-                    ", " + request.getUsername() +  " регистрация в Lab7 прошла успешно");
+                    ", " + request.getUsername() +  ", регистрация в Lab7 прошла успешно");
         }
     }
 
-    public Response handle(RequestDTO request) {
+    public ServerResponse handle(RequestDTO request) {
         String token = request.getToken();
         if (jwtService.verifyJWTToken(token)) {
-            logger.info("user " + jwtService.decryptUserJWTToken(token) + " has time out tocken");
+            logger.info("user " + jwtService.decryptUserJWTToken(token) + " has correct token");
             return Server.serverRequestFromClientManager.getServerResponse(request);
 
         } else {
-            logger.info(() -> "user " + jwtService.decryptUserJWTToken(token) + " has not deistvitelnay tocken");
-            return new PullingResponse(null,"похоже, что время вашей сессии закончилось");
+            logger.info(() -> "user " + jwtService.decryptUserJWTToken(token) + " has not correct token");
+            return new ServerResponse("token_finished","похоже, что время вашей сессии закончилось",null);
         }
     }
 

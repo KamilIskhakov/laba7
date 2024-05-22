@@ -3,7 +3,13 @@ package Groupld.Server.collectionmanagers.datamanagers;
 import Groupld.Controler.CollectionObjects.*;
 import org.apache.logging.log4j.Logger;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.sql.Timestamp;
+
 import java.util.concurrent.ConcurrentHashMap;
 
 public class SQLDataManager {
@@ -21,7 +27,6 @@ public class SQLDataManager {
     private static final int ID_INDEX = 12;
     private static final int CREATION_DATE_INDEX = 12;
     private static final int OWNER_INDEX = 13;
-    private static final int KEY_INDEX = 14;
     private final Connection connection;
     private final String peopleTableName;
     private final String usersTableName;
@@ -38,17 +43,16 @@ public class SQLDataManager {
         Statement statement = connection.createStatement();
         statement.execute("CREATE TABLE IF NOT EXISTS " + peopleTableName
                 + "(id INTEGER PRIMARY KEY, "
-                + "key BIGINT NOT NULL, "
                 + "name VARCHAR(50) NOT NULL, "
                 + "x_coord FLOAT NOT NULL, "
                 + "y_coord FLOAT NOT NULL, "
                 + "height INTEGER, "
-                + "weight DOUBLE NOT NULL CHECK(weight>0), "
+                + "weight DOUBLE PRECISION NOT NULL CHECK(weight>0), "
                 + "color VARCHAR(100), "
                 + "country VARCHAR(100) NOT NULL, "
                 + "x_loc INT, "
                 + "y_loc FLOAT NOT NULL, "
-                + "z_loc DOUBLE, "
+                + "z_loc DOUBLE PRECISION, "
                 + "name_loc VARCHAR(100) NOT NULL, "
                 + "creation_date TIMESTAMP NOT NULL, "
                 + "owner VARCHAR(100) NOT NULL,"
@@ -61,7 +65,7 @@ public class SQLDataManager {
         Statement statement = connection.createStatement();
         ResultSet result = statement.executeQuery("SELECT * FROM " + peopleTableName);
         while (result.next()) {
-            people.put(result.getInt("key"), getPersonFromTable(result));
+            people.put(result.getInt("id"), getPersonFromTable(result));
         }
         logger.info(() -> "added " + people.size() + " objects from the database");
         return people;
@@ -86,11 +90,11 @@ public class SQLDataManager {
         return person;
     }
 
-    public boolean removeByKey(Integer key) {
+    public boolean removeById(Integer key) {
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM "
                     + peopleTableName + " WHERE key=?");
-            preparedStatement.setLong(1, key);
+            preparedStatement.setInt(1, key);
             preparedStatement.execute();
         } catch (SQLException e) {
             logger.warn("error during removing object from table", e);
@@ -99,16 +103,15 @@ public class SQLDataManager {
         return true;
     }
 
-    public Integer add(Integer key, Person person) {
+    public Integer add(Person person) {
         Integer id;
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO " + peopleTableName
-                    + "(id,name,x,y,height,weight,color,country,x_loc,y_loc,z_loc,name_loc,"
-                    + "creation_date,owner,key) VALUES (default,?,?,?,?,?,?,?,?,?,?,?,?,?,?) RETURNING id");
+                    + "(id,name,x_coord,y_coord,height,weight,color,country,x_loc,y_loc,z_loc,name_loc,"
+                    + "creation_date,owner) VALUES (default,?,?,?,?,?,?,?,?,?,?,?,?,?) RETURNING id");
             prepareStatement(preparedStatement, person);
             preparedStatement.setTimestamp(CREATION_DATE_INDEX, new Timestamp(person.getCreationDate().getTime()));
             preparedStatement.setString(OWNER_INDEX, person.getOwnerUsername()); // здесь должно быть имя владельца
-            preparedStatement.setInt(KEY_INDEX, key);
             ResultSet result = preparedStatement.executeQuery();
             result.next();
             id = result.getInt("id");

@@ -25,8 +25,8 @@ public class RemoveHeadCommand implements Command {
 
     @Override
     public ServerResponse execute() {
-        Server.collectionManager.removeHead();
-        return new ServerResponse(getName());
+        /*Server.collectionManager.removeHead();*/
+        return new ServerResponse(getName(), Server.sqlCollectionManager.toString(), request.getToken());
     }
 
 }

@@ -26,7 +26,7 @@ public abstract class CollectionManager {
                 + "Collection size: " + collection.size();
     }
 
-    public abstract void addToCollection(Integer key, Person person);
+    public abstract void addToCollection(Person person);
 
     @Override
     public String toString() {
@@ -51,10 +51,6 @@ public abstract class CollectionManager {
 
     public boolean containsKey(Integer key) {
         return collection.containsKey(key);
-    }
-
-    public Person getByKey(Integer key) {
-        return collection.get(key);
     }
 
     public abstract boolean remove(Integer key);

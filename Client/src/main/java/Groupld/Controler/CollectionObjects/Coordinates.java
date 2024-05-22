@@ -1,13 +1,10 @@
 package Groupld.Controler.CollectionObjects;
 
 
-import jakarta.xml.bind.annotation.XmlElement;
-import jakarta.xml.bind.annotation.XmlType;
 
 import java.io.Serializable;
 
 
-@XmlType(propOrder = {"x", "y"})
 public class Coordinates implements Serializable {
     private Float x;
     private Float y;
@@ -34,11 +31,11 @@ public class Coordinates implements Serializable {
         }
     }
 
-    @XmlElement
+
     public Float getX() {
         return x;
     }
-    @XmlElement
+
     public Float getY() {
         return y;
     }

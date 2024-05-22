@@ -25,15 +25,15 @@ public class GroupCountingByNameCommand implements Command {
 
     @Override
     public ServerResponse execute() {
-        String s = "";
+        /*String s = "";
         int count = 0;
         for(int i : Server.collectionManager.GroupPeople())   {
             if (i>0){
             s += "Группа имён с длинной " + count + ": " + i + "\n";
             }
             count += 1;
-        }
-        return new ServerResponse(getName(),s);
+        }*/
+        return new ServerResponse(getName(), Server.sqlCollectionManager.toString(), request.getToken());
     }
 
 }

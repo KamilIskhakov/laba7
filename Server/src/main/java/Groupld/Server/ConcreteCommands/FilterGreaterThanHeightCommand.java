@@ -24,7 +24,7 @@ public class FilterGreaterThanHeightCommand implements Command {
 
     @Override
     public ServerResponse execute() {
-        return new ServerResponse(Server.collectionManager.FilterGreaterThanHeight(request.getHeight()));
+        return new ServerResponse(getName(), Server.sqlCollectionManager.toString(), request.getToken());
     }
 
 }

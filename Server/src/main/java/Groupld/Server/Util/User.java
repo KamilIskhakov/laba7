@@ -1,13 +1,9 @@
 package Groupld.Server.Util;
 
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlType;
 import java.io.Serializable;
 import java.util.Objects;
 
-@XmlRootElement(name = "spaceMarine")
-@XmlType(propOrder = {"username", "hashPassword"})
+
 public class User implements Serializable {
     private final String username;
     private final String password;
@@ -17,12 +13,12 @@ public class User implements Serializable {
         this.password = password;
     }
 
-    @XmlElement
+
     public String getUsername() {
         return username;
     }
 
-    @XmlElement
+
     public String getPassword() {
         return password;
     }

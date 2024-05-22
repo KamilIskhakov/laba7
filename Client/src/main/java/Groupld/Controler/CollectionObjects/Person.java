@@ -1,18 +1,11 @@
 package Groupld.Controler.CollectionObjects;
 
-
-import jakarta.xml.bind.annotation.XmlAttribute;
-import jakarta.xml.bind.annotation.XmlElement;
-import jakarta.xml.bind.annotation.XmlRootElement;
-import jakarta.xml.bind.annotation.XmlType;
-
 import java.io.Serializable;
 import java.util.Date;
 
 // если используете джакарту для парсинга в xml, учтите, что порядок геттеров для нанесения ярлыков важен,
 // он такой же, как в xmltype, а также в том же порядке напишите сеттеры!
-@XmlRootElement(name = "person")
-@XmlType(propOrder = {"name", "coordinates", "height", "weight", "eyeColor", "nationality", "location", "id", "creationDate"})
+
 public class Person implements Comparable<Location>, Serializable {
     private String name; //no null
     private Coordinates coordinates; //no null
@@ -77,51 +70,45 @@ public class Person implements Comparable<Location>, Serializable {
         }
     }
 
-    @XmlElement
     public String getName() {
         return name;
     }
 
-    @XmlElement
     public Coordinates getCoordinates() {
         return coordinates;
     }
 
-    @XmlElement
     public Integer getHeight() {
         return height;
     }
 
-    @XmlElement
     public double getWeight() {
         return weight;
     }
 
-    @XmlElement
+
     public Color getEyeColor() {
         return eyeColor;
     }
 
-    @XmlElement
+
     public Country getNationality() {
         return nationality;
     }
 
-    @XmlElement
     public Location getLocation() {
         return location;
     }
-    @XmlElement
+
     public String getOwnerUsername(){
         return ownerUsername;
     }
 
-    @XmlAttribute
     public Integer getId() {
         return id;
     }
 
-    @XmlAttribute
+
     public Date getCreationDate() {
         return creationDate;
     }
@@ -175,7 +162,6 @@ public class Person implements Comparable<Location>, Serializable {
         info += "\n Цвет глаз: " + eyeColor;
         info += "\n Страна проживания: " + nationality;
         info += "\n Местоположение: " + location;
-        info += "\n владелец" + ownerUsername;
         info += "\n id: " + id;
         return info;
     }

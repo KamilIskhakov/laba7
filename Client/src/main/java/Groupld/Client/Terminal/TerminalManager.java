@@ -8,6 +8,8 @@ import Groupld.Controler.CollectionObjects.*;
 import Groupld.Controler.Exceptions.InvalidInputException;
 import Groupld.Controler.Exceptions.NoConnectionException;
 import Groupld.Controler.Exceptions.NotCorrectException;
+import Groupld.Controler.PullingRequest;
+import Groupld.Controler.PullingResponse;
 import Groupld.Controler.RequestFactoryDTO.RequestDTO;
 import com.github.drapostolos.typeparser.TypeParser;
 import com.github.drapostolos.typeparser.TypeParserException;
@@ -21,6 +23,8 @@ public class TerminalManager {
     private final TerminalOutput outputManager;
     private final TypeParser parser;
 
+    public static String token = null;
+
     public TerminalManager(CommandRequestManager commandRequestManager,
                            TerminalInput inputManager, TerminalOutput outputManager,
                            CommandResponseFromServerManager commandResponseFromServerManager) {
@@ -33,6 +37,7 @@ public class TerminalManager {
 
     public void start()  throws IOException, ClassNotFoundException, InvalidInputException, NoConnectionException, InterruptedException{
         while (true) {
+            authorize();
             try {
                 if (Client.script) {
                     if (!inputManager.scriptBox.isEmpty()) {
@@ -40,6 +45,7 @@ public class TerminalManager {
                         RequestDTO handler = commandRequestManager.preparationForShipment(readLine[0], readLine[1]);
                         if (handler != null){
                             ServerResponse response = (ServerResponse) Client.clientSendToServer.send(handler);
+                            token = response.getToken();
                             commandResponseFromServerManager.preparationForOutput(response);
                         }
                     } else {
@@ -51,6 +57,7 @@ public class TerminalManager {
                     RequestDTO handler =  commandRequestManager.preparationForShipment(readLine[0], readLine[1]);
                     if (handler != null){
                         ServerResponse response = (ServerResponse) Client.clientSendToServer.send(handler);
+                        token = response.getToken();
                         commandResponseFromServerManager.preparationForOutput(response);
                     }
                 }
@@ -61,24 +68,35 @@ public class TerminalManager {
         }
     }
 
-    private void authorize() throws InvalidInputException, NoConnectionException, IOException, InterruptedException,
+    private void authorize() throws NoConnectionException, IOException, InterruptedException,
             ClassNotFoundException {
-        boolean isAuthorized = false;
-        do {
-            outputManager.print("enter username:");
-            String newUsername = inputManager.readTerminal()[0];
-            outputManager.print("enter password:");
-            String newPassword = inputManager.readTerminal()[0];
-            PullingResponse response = requester.sendPullingRequest(newUsername, newPassword);
-            if (response.getRegistrationCode() == RegistrationCode.AUTHORIZED
-                    || response.getRegistrationCode() == RegistrationCode.REGISTERED) {
-                isAuthorized = true;
-                commands = response.getRequirements();
-                username = newUsername;
-                password = newPassword;
+        restart:
+        while (token == null){
+                outputManager.println("Если хотите зарегистрироваться, то введите 'регистрация'" +
+                        ", если войти, то – 'войти'");
+                String operation = inputManager.readTerminal()[0].trim();
+                if (!operation.equals("войти")){
+                    if (!operation.equals("регистрация")){
+                        outputManager.println(operation);
+                        outputManager.printlnNotCorrectInput();
+                        continue restart;
+                    }
+                }
+                outputManager.print("введите логин: ");
+                String newUsername = inputManager.readTerminal()[0];
+                outputManager.print("введите пароль: ");
+                String newPassword = inputManager.readTerminal()[0];
+                PullingResponse response =  (PullingResponse) Client.clientSendToServer.send(new PullingRequest(newUsername,newPassword,operation));
+                if (response.getToken() == null) {
+                    outputManager.println(response.getMessage());
+                    token = response.getToken();
+                    continue restart;
+                }else{
+                    outputManager.println(response.getMessage());
+                    token = response.getToken();
+                }
+                break;
             }
-            outputManager.printlnImportantMessage(response.getRegistrationCode().getMessage());
-        } while (!isAuthorized);
     }
 
     public <T> T getAsk(String messageWellDone, Class<T> type) {

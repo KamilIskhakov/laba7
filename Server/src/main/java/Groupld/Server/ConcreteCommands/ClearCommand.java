@@ -25,8 +25,8 @@ public class ClearCommand implements Command {
 
     @Override
     public ServerResponse execute() {
-        Server.collectionManager.clear();
-        return new ServerResponse(getName());
+        Server.sqlCollectionManager.clear(request.getUserName());
+        return new ServerResponse(getName(), request.getToken());
     }
 
 }

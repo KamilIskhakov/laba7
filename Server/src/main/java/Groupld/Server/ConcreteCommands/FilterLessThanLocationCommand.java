@@ -25,7 +25,7 @@ public class FilterLessThanLocationCommand implements Command {
 
     @Override
     public ServerResponse execute() {
-        return new ServerResponse(getName(),Server.collectionManager.FilterLessThanLocation(request.getLocation()));
+        return new ServerResponse(getName(), Server.sqlCollectionManager.toString(), request.getToken());
     }
 
 }

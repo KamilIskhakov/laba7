@@ -15,6 +15,7 @@ import java.nio.channels.DatagramChannel;
 
 public class Client {
     public static boolean script = false;
+
     public static TerminalOutput terminalOutput;
     public static TerminalInput terminalInput;
     public static TerminalManager terminalManager;

@@ -24,7 +24,7 @@ public class UpdateCommand implements Command {
 
     @Override
     public ServerResponse execute() {
-        Server.collectionManager.update(request.getPerson(),request.getId());
-        return new ServerResponse(getName());
+        /*Server.collectionManager.update(request.getPerson(),request.getId());*/
+        return new ServerResponse(getName(), Server.sqlCollectionManager.toString(), request.getToken());
     }
 }
