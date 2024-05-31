@@ -3,12 +3,15 @@ package Groupld.Controler.CollectionObjects;
 
 
 
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlType;
+import lombok.Getter;
+import lombok.Setter;
+import org.hibernate.annotations.Entity;
 import java.io.Serializable;
 
 
-@XmlType(propOrder = {"x", "y"})
+@Entity
+@Getter
+@Setter
 public class Coordinates implements Serializable {
     private Float x;
     private Float y;
@@ -33,23 +36,6 @@ public class Coordinates implements Serializable {
         public Coordinates build() {
             return new Coordinates(this);
         }
-    }
-
-    @XmlElement
-    public Float getX() {
-        return x;
-    }
-    @XmlElement
-    public Float getY() {
-        return y;
-    }
-
-    public void setX(Float x) {
-        this.x = x;
-    }
-
-    public void setY(Float y) {
-        this.y = y;
     }
 
     public String toString() {

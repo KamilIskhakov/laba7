@@ -13,12 +13,11 @@ import java.security.PublicKey;
 import java.security.cert.Certificate;
 import java.security.cert.CertificateFactory;
 import java.time.Instant;
-import java.util.Calendar;
 import java.util.Date;
 
 public class JWTService {
 
-    private long DEFAULT_EXPIRE_IN_SECONDS = 15; // 2 минуты
+    private long DEFAULT_EXPIRE_IN_SECONDS = 60*2; // 2 минуты
     private  Key key;
     private PublicKey publicKey;
 
@@ -27,10 +26,10 @@ public class JWTService {
         KeyStore ks = null;
         try {
             ks = KeyStore.getInstance(KeyStore.getDefaultType());
-            ks.load(new FileInputStream("/Users/kamiliskhakov/IdeaProjects/laba7/Server/keyStore/hanbotest.jks"), jksPassword.toCharArray());
+            ks.load(new FileInputStream("Server/keyStore/hanbotest.jks"), jksPassword.toCharArray());
             Key key = ks.getKey("hanbotest", jksPassword.toCharArray());
             this.key = key;
-            this.publicKey = loadPublicKey("/Users/kamiliskhakov/IdeaProjects/laba7/Server/keyStore/hanbotest.cer");
+            this.publicKey = loadPublicKey("Server/keyStore/hanbotest.cer");
         } catch (Exception e) {
             Server.LOGGER.info("exception with JWT token" );
         }

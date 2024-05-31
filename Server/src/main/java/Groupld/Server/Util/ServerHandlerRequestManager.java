@@ -6,13 +6,13 @@ import Groupld.Controler.RequestFactoryDTO.*;
 import Groupld.Server.ConcreteCommands.*;
 
 
-public class ServerRequestFromClientManager {
+public class ServerHandlerRequestManager {
     private HandlerServerMap handlerServerMap;
-    public ServerRequestFromClientManager(){
+    public ServerHandlerRequestManager(){
         handlerServerMap = new HandlerServerMap();
         handlerServerMap.register(AddRequestDTO.class, (event) -> new AddCommand(event).execute());
         handlerServerMap.register(ClearRequestDTO.class, (event) -> new AddCommand(event).execute());
-        handlerServerMap.register(ExecuteScriptRequestDTO.class, (event) -> new ExecuteScriptCommand(event).execute());
+        /*handlerServerMap.register(ExecuteScriptRequestDTO.class, (event) -> new ExecuteScriptCommand(event).execute());
         handlerServerMap.register(ExitRequestDTO.class, (event) -> new ExitCommand(event).execute());
         handlerServerMap.register(FilterGreaterThanHeightRequestDTO.class, (event) -> new FilterGreaterThanHeightCommand(event).execute());
         handlerServerMap.register(FilterLessThanLocationRequestDTO.class, (event) -> new FilterLessThanLocationCommand(event).execute());
@@ -23,10 +23,10 @@ public class ServerRequestFromClientManager {
         handlerServerMap.register(RemoveByIdRequestDTO.class, (event) -> new RemoveByIdCommand(event).execute());
         handlerServerMap.register(RemoveHeadRequestDTO.class, (event) -> new RemoveHeadCommand(event).execute());
         handlerServerMap.register(ShowRequestDTO.class, (event) -> new ShowCommand(event).execute());
-        handlerServerMap.register(UpdateRequestDTO.class, (event) -> new UpdateCommand(event).execute());
+        handlerServerMap.register(UpdateRequestDTO.class, (event) -> new UpdateCommand(event).execute());*/
     }
-    public ServerResponse getServerResponse(RequestDTO request){
-        return handlerServerMap.getHandlers(request.getClass()).handleEvent(request);
+    public ServerResponse getServerResponse(ReceivedData request){
+        return handlerServerMap.getHandlers(request).handleEvent(request);
     }
 }
 

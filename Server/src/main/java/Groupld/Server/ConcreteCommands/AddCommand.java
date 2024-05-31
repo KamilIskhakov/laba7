@@ -1,16 +1,18 @@
 package Groupld.Server.ConcreteCommands;
 
+import Groupld.Controler.CollectionObjects.Person;
 import Groupld.Controler.RequestFactoryDTO.AddRequestDTO;
 import Groupld.Controler.RequestFactoryDTO.RequestDTO;
 import Groupld.Controler.ChannelClientServerUtil.ServerResponse;
 import Groupld.Server.Command;
 import Groupld.Server.Server;
+import Groupld.Server.Util.ReceivedData;
 
 public class AddCommand implements Command {
-    private AddRequestDTO request;
+    private ReceivedData request;
 
-    public AddCommand(RequestDTO request){
-        this.request = (AddRequestDTO) request;
+    public AddCommand(ReceivedData request){
+        this.request = request;
     }
 
     @Override
@@ -25,8 +27,7 @@ public class AddCommand implements Command {
 
     @Override
     public ServerResponse execute(){
-        request.getPerson().setOwnerUsername(request.getUserName());
-        Server.sqlCollectionManager.addToCollection(request.getPerson());
-        return new ServerResponse(getName(), request.getToken());
+        /*Server.sqlCollectionManager.addToCollection(request.getPerson());*/
+        return null;/*new ServerResponse(getName(), request.getToken());*/
     }
 }

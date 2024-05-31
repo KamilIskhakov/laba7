@@ -14,13 +14,5 @@ public class SaveRequestDTO implements RequestDTO {
     public void setToken(String token) {
         this.token = token;
     }
-    @Override
-    public String getUserName() {
-        return name;
-    }
 
-    @Override
-    public void setUserName(String userName) {
-        this.name = userName;
-    }
 }

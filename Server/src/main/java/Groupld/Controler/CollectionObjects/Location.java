@@ -1,11 +1,14 @@
 package Groupld.Controler.CollectionObjects;
 
 
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlType;
+import lombok.Getter;
+import lombok.Setter;
+import org.hibernate.annotations.Entity;
 import java.io.Serializable;
 
-@XmlType(propOrder = {"x", "y","z","name"})
+@Entity
+@Getter
+@Setter
 public class Location implements Serializable {
     private int x;
     private Float y;
@@ -44,38 +47,6 @@ public class Location implements Serializable {
         public Location build() {
             return new Location(this);
         }
-    }
-    @XmlElement
-    public int getX(){
-        return x;
-    }
-    @XmlElement
-    public Float getY(){
-        return y;
-    }
-    @XmlElement
-    public double getZ(){
-        return z;
-    }
-    @XmlElement
-    public String getName(){
-        return name;
-    }
-
-    public void setX(int x) {
-        this.x = x;
-    }
-
-    public void setY(Float y) {
-        this.y = y;
-    }
-
-    public void setZ(double z) {
-        this.z = z;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public String toString() {

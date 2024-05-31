@@ -4,7 +4,7 @@ import Groupld.Controler.RequestFactoryDTO.RequestDTO;
 
 import java.io.Serializable;
 
-public class PullingRequest implements Serializable, RequestDTO {
+public class PullingRequest implements Serializable, RequestDTO{
     private final String username;
     private final String password;
 
@@ -36,21 +36,21 @@ public class PullingRequest implements Serializable, RequestDTO {
                 + '}';
     }
 
-    @Override
+
     public String getToken() {
         return null;
     }
 
-    @Override
+
     public void setToken(String token) {
     }
 
-    @Override
+
     public String getUserName() {
         return null;
     }
 
-    @Override
+
     public void setUserName(String userName) {
 
     }

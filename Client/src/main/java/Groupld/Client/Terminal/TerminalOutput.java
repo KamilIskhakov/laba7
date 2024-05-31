@@ -24,7 +24,7 @@ public class TerminalOutput {
         printlnImportantMessage(color.colorize(string));
     }
     public void printlnNotCorrectInput() {
-        println("Вы ввели некорректные формат данных");
+        println("Вы ввели некорректный формат данных");
     }
     public void printlnWellDoneCommandMessage() {
         printlnImportantColorMessage("Команда была успешно выполнена",ColorOutput.GREEN);

@@ -15,7 +15,6 @@ public class Person implements Comparable<Location>, Serializable {
     private Country nationality; //no null
     private Location location;
     private String ownerUsername;
-    private Integer id; //no null
     private Date creationDate; //no null
 
     public Person(PersonBuilder personBuilder) {
@@ -104,18 +103,13 @@ public class Person implements Comparable<Location>, Serializable {
         return ownerUsername;
     }
 
-    public Integer getId() {
-        return id;
-    }
-
-
     public Date getCreationDate() {
         return creationDate;
     }
 
 
     public int compareTo(Person personObj) {
-        return id.compareTo(personObj.getId());
+        return 1;
 
     }
 
@@ -153,7 +147,7 @@ public class Person implements Comparable<Location>, Serializable {
 
     public String toString() {
         String info = "";
-        info += "Человек" + id;
+        info += "Человек";
         info += " (добавлен " + creationDate.toString() + " " + creationDate.toString() + ")";
         info += "\n Имя: " + name;
         info += "\n Координаты: " + coordinates;
@@ -162,13 +156,10 @@ public class Person implements Comparable<Location>, Serializable {
         info += "\n Цвет глаз: " + eyeColor;
         info += "\n Страна проживания: " + nationality;
         info += "\n Местоположение: " + location;
-        info += "\n id: " + id;
+        info += "\n создатель: " + ownerUsername;
         return info;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
 
     public void setCreationDate(Date creationDate) {
         this.creationDate = creationDate;

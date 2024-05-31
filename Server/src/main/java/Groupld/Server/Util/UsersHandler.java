@@ -1,12 +1,7 @@
 package Groupld.Server.Util;
 
-import Groupld.Controler.ChannelClientServerUtil.ServerResponse;
 import Groupld.Controler.PullingRequest;
 import Groupld.Controler.PullingResponse;
-import Groupld.Controler.RequestFactoryDTO.RequestDTO;
-import Groupld.Controler.Response;
-import Groupld.Server.PasswordEncoder;
-import Groupld.Server.Server;
 import Groupld.Server.usersmanagers.SQLUserManager;
 import org.apache.logging.log4j.Logger;
 
@@ -31,26 +26,18 @@ public class UsersHandler {
                 logger.info("failed login attempt");
                 return new PullingResponse(null,"не получилось войти в систему, неправильный логин или пароль");
             }
-        } else if (sqlUserManager.isUsernameExists(newUser.getUsername()) & request.getOperation().equals("регистрация")) {
+        } else if (!sqlUserManager.isUsernameExists(newUser.getUsername()) & request.getOperation().equals("войти")) {
+            logger.info("this user doesn't exists, failed authorization");
+            return new PullingResponse(null,"данного пользователя не существует");
+        }
+        else if (sqlUserManager.isUsernameExists(newUser.getUsername()) & request.getOperation().equals("регистрация")) {
             logger.info("login just exists, failed registration");
             return new PullingResponse(null,"данный логин уже занят");
-        } else {
+        }else {
             sqlUserManager.registerUser(newUser);
             logger.info(() -> "user " + newUser.getUsername() + " registered");
             return new PullingResponse(jwtService.generateJWTToken(request.getUsername()),"добро пожаловать" +
                     ", " + request.getUsername() +  ", регистрация в Lab7 прошла успешно");
-        }
-    }
-
-    public ServerResponse handle(RequestDTO request) {
-        String token = request.getToken();
-        if (jwtService.verifyJWTToken(token)) {
-            logger.info("user " + jwtService.decryptUserJWTToken(token) + " has correct token");
-            return Server.serverRequestFromClientManager.getServerResponse(request);
-
-        } else {
-            logger.info(() -> "user " + " has not correct token");
-            return new ServerResponse("token_finished","похоже, что время вашей сессии закончилось",null);
         }
     }
 

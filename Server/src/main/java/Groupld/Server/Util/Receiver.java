@@ -1,9 +1,9 @@
 package Groupld.Server.Util;
 
 import Groupld.Controler.PullingRequest;
+import Groupld.Controler.PullingResponse;
 import Groupld.Controler.RequestFactoryDTO.RequestDTO;
 import Groupld.Controler.ChannelClientServerUtil.Serializer;
-import Groupld.Controler.ChannelClientServerUtil.ServerResponse;
 import Groupld.Controler.Response;
 import Groupld.Server.Server;
 import org.apache.logging.log4j.Logger;
@@ -19,12 +19,14 @@ public class Receiver {
     private final DatagramSocket server;
     private final Logger logger;
     private final UsersHandler usersHandler;
+    private final UserTokenPolice userTokenPolice;
 
-    public Receiver(DatagramSocket server, int bufferSize, Logger logger, UsersHandler usersHandler) {
+    public Receiver(DatagramSocket server, int bufferSize, Logger logger, UsersHandler usersHandler, UserTokenPolice userTokenPolice) {
         this.server = server;
         this.bufferSize = bufferSize;
         this.logger = logger;
         this.usersHandler = usersHandler;
+        this.userTokenPolice = userTokenPolice;
     }
     public void start(ExecutorService requestReadingPool, ExecutorService requestProcessingPool,
                       ExecutorService responseSendingPool) {
@@ -35,18 +37,22 @@ public class Receiver {
                 InetAddress client = receivedData.getClient();
                 int port = receivedData.getPort();
                 requestProcessingPool.submit(() -> {
-                    Object response = processRequest(request);
+                    Object response = processRequest(receivedData);
                     responseSendingPool.submit(() -> sendResponse(response, client, port));
                 });
             }
         });
     }
-    private Response processRequest(RequestDTO received) {
-        if (received instanceof PullingRequest) {
-            return usersHandler.authorization((PullingRequest) received);
+    private Response processRequest(ReceivedData received) {
+        if (received.getRequest() instanceof PullingRequest) {
+            return usersHandler.authorization((PullingRequest) received.getRequest());
         } else {
-            return usersHandler.handle(received);
+            if (userTokenPolice.verify(received)){
+                return Server.serverHandlerRequestManager.getServerResponse(received);
+            }else {
+                return new PullingResponse("",null);
             }
+        }
     }
 
     private boolean sendResponse(Object response, InetAddress client, int port) {

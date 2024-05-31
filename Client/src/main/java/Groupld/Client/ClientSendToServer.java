@@ -30,7 +30,7 @@ public class ClientSendToServer {
         this.outputManager = outputManager;
     }
 
-    public Object send(RequestDTO request) throws IOException, NoConnectionException, InterruptedException, ClassNotFoundException {
+        public Object send(RequestDTO request) throws IOException, NoConnectionException, InterruptedException, ClassNotFoundException {
         byte[] bytesSending = Serializer.serialize(request);
         ByteBuffer wrapperSending = ByteBuffer.wrap(bytesSending); //обертываем в буффер наш чанк
         for (int attempt = 1; attempt <= reconnectionAttempts; attempt++) {
