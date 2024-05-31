@@ -1,28 +1,46 @@
 package Groupld.Controler.CollectionObjects;
 
+import lombok.Getter;
+import lombok.Setter;
 
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlType;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 
 // если используете джакарту для парсинга в xml, учтите, что порядок геттеров для нанесения ярлыков важен,
 // он такой же, как в xmltype, а также в том же порядке напишите сеттеры!
-@XmlRootElement(name = "person")
-@XmlType(propOrder = {"name", "coordinates", "height", "weight", "eyeColor", "nationality", "location", "id", "creationDate"})
+@Entity
+@Getter
+@Setter
 public class Person implements Comparable<Location>, Serializable {
-    private String name; //no null
-    private Coordinates coordinates; //no null
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    private Integer id;
+
+    @Column(name = "name", nullable = false)
+    private String name;
+
+    @Embedded
+    private Coordinates coordinates;
+
+    @Column(name = "height")
     private Integer height;
-    private double weight; // > 0
+
+    @Column(name = "weight", nullable = false)
+    private Double weight;
+
+    @Enumerated(EnumType.STRING)
     private Color eyeColor;
-    private Country nationality; //no null
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "country", nullable = false)
+    private Country nationality;
+
+    @Embedded
     private Location location;
-    private String ownerUsername;
-    private Integer id; //no null
-    private Date creationDate; //no null
+
+    @Column(name = "creation_date", nullable = false)
+    private Date creationDate;
 
     public Person(PersonBuilder personBuilder) {
         name = personBuilder.name;
@@ -76,96 +94,11 @@ public class Person implements Comparable<Location>, Serializable {
         }
     }
 
-    @XmlElement
-    public String getName() {
-        return name;
-    }
 
-    @XmlElement
-    public Coordinates getCoordinates() {
-        return coordinates;
-    }
-
-    @XmlElement
-    public Integer getHeight() {
-        return height;
-    }
-
-    @XmlElement
-    public double getWeight() {
-        return weight;
-    }
-
-    @XmlElement
-    public Color getEyeColor() {
-        return eyeColor;
-    }
-
-    @XmlElement
-    public Country getNationality() {
-        return nationality;
-    }
-
-    @XmlElement
-    public Location getLocation() {
-        return location;
-    }
-    @XmlElement
-    public String getOwnerUsername(){
-        return ownerUsername;
-    }
-
-    @XmlAttribute
-    public Integer getId() {
-        return id;
-    }
-
-    @XmlAttribute
-    public Date getCreationDate() {
-        return creationDate;
-    }
-
-
-    public int compareTo(Person personObj) {
-        return id.compareTo(personObj.getId());
-
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setCoordinates(Coordinates coordinates) {
-        this.coordinates = coordinates;
-    }
-
-    public void setHeight(Integer height) {
-        this.height = height;
-    }
-
-    public void setWeight(double weight) {
-        this.weight = weight;
-    }
-
-    public void setEyeColor(Color eyeColor) {
-        this.eyeColor = eyeColor;
-    }
-
-    public void setNationality(Country nationality) {
-        this.nationality = nationality;
-    }
-
-    public void setLocation(Location location) {
-        this.location = location;
-    }
-
-    public void setOwnerUsername(String ownerUsername) {
-        this.ownerUsername = ownerUsername;
-    }
 
     public String toString() {
         String info = "";
-        info += "Человек" + id;
+        info += "Человек";
         info += " (добавлен " + creationDate.toString() + " " + creationDate.toString() + ")";
         info += "\n Имя: " + name;
         info += "\n Координаты: " + coordinates;
@@ -176,14 +109,6 @@ public class Person implements Comparable<Location>, Serializable {
         info += "\n Местоположение: " + location;
         info += "\n id: " + id;
         return info;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public void setCreationDate(Date creationDate) {
-        this.creationDate = creationDate;
     }
 
 
