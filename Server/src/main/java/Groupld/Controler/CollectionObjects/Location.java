@@ -3,16 +3,22 @@ package Groupld.Controler.CollectionObjects;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.Entity;
+
+import javax.persistence.Column;
+import javax.persistence.Embeddable;
 import java.io.Serializable;
 
-@Entity
-@Getter
+@Embeddable
 @Setter
+@Getter
 public class Location implements Serializable {
+    @Column(name = "x_loc")
     private int x;
+    @Column(name = "y_loc")
     private Float y;
+    @Column(name = "z_loc")
     private double z;
+    @Column(name = "name_loc")
     private String name;
 
     public Location(LocationBuilder locationBuilder){

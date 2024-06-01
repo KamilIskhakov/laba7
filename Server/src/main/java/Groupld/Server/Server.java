@@ -6,9 +6,8 @@ import Groupld.Controler.CollectionObjects.Location;
 import Groupld.Controler.CollectionObjects.Person;
 import Groupld.Controler.Exceptions.IllegalAddressException;
 import Groupld.Server.Util.*;
-import Groupld.Server.collectionmanagers.CollectionManager;
-import Groupld.Server.collectionmanagers.SQLCollectionManager;
-import Groupld.Server.collectionmanagers.datamanagers.SQLDataManager;
+import Groupld.Server.collectionmanagers.*;
+import Groupld.Server.collectionmanagers.User;
 import Groupld.Server.usersmanagers.SQLUserManager;
 import Groupld.Server.usersmanagers.tablecreators.SQLUserTableCreator;
 import org.apache.logging.log4j.LogManager;
@@ -32,7 +31,6 @@ import java.util.concurrent.locks.ReentrantLock;
 
 public final class Server {
 
-    public static CollectionManager sqlCollectionManager;
     private static final int BUFFER_SIZE = 2048;
     public static final Logger LOGGER = LogManager.getLogger(Server.class);
     private static final int NUMBER_OF_ARGUMENTS = 7;
@@ -43,13 +41,15 @@ public final class Server {
     private static final int INDEX_DB_NAME = 4;
     private static final int INDEX_DB_USERNAME = 5;
     private static final int INDEX_DB_PASSWORD = 6;
-    private static final String USER_TABLE_NAME = "users";
+    private static final String USER_TABLE_NAME = "users_authorization";
     private static final String DATA_TABLE_NAME = "people";
     private static final Scanner SCANNER = new Scanner(System.in);
     private static final ExecutorService REQUEST_READING_POOL = Executors.newFixedThreadPool(10);
     private static final ExecutorService REQUEST_PROCESSING_POOL = Executors.newCachedThreadPool();
     private static final ExecutorService RESPONSE_SENDING_POOL = Executors.newCachedThreadPool();
     public static ServerHandlerRequestManager serverHandlerRequestManager;
+    public static  PersonRepository personRepository;
+
 
     private Server() {
         throw new UnsupportedOperationException("This is a utility class and can not be instantiated");
@@ -76,15 +76,22 @@ public final class Server {
                 configuration.setProperty("hibernate.hbm2ddl.auto", "update"); // Or other schema management option
                 configuration.setProperty("hibernate.show_sql", "true");
 
+
                 // Add annotated classes
                 configuration.addAnnotatedClass(Person.class);
                 configuration.addAnnotatedClass(Location.class);
                 configuration.addAnnotatedClass(Coordinates.class);
+                configuration.addAnnotatedClass(User.class);
+                configuration.addAnnotatedClass(UserPerson.class);
                 // Add other entity classes as needed
 
                 ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()
                         .applySettings(configuration.getProperties()).build();
                 SessionFactory sessionFactory = configuration.buildSessionFactory(serviceRegistry);
+                PersonDAO personDAO = new PersonDAO(sessionFactory,LOGGER);
+                UserPersonDAO userPersonDAO = new UserPersonDAO(sessionFactory);
+                personRepository = new PersonRepository(personDAO, userPersonDAO);
+                serverHandlerRequestManager = new ServerHandlerRequestManager();
 
                 LOGGER.info(() -> "Connected to the database " + dataBaseUrl);
 
@@ -92,11 +99,8 @@ public final class Server {
                      DatagramSocket server = new DatagramSocket(address)) {
                     LOGGER.info(() -> "Opened datagram socket on the address " + address);
                     // Initialize your managers and handlers using Hibernate session factory
-                    SQLDataManager sqlDataManager = new SQLDataManager(sessionFactory, DATA_TABLE_NAME, LOGGER);
                     SQLUserTableCreator sqlUserTableCreator = new SQLUserTableCreator(connection, USER_TABLE_NAME, LOGGER);
                     SQLUserManager sqlUserManager = new SQLUserManager(new ReentrantLock(), sqlUserTableCreator.init(), connection, USER_TABLE_NAME, LOGGER);
-                    sqlCollectionManager = new SQLCollectionManager(sqlDataManager.initCollection(), sqlDataManager);
-                    serverHandlerRequestManager = new ServerHandlerRequestManager();
                     JWTService jwtService = new JWTService();
                     UserTokenPolice userTokenPolice = new UserTokenPolice(LOGGER, jwtService);
                     UsersHandler usersHandler = new UsersHandler(sqlUserManager, LOGGER, jwtService);

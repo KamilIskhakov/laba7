@@ -33,7 +33,6 @@ public class Receiver {
         requestReadingPool.submit(() -> {
             while (!server.isClosed()) {
                 ReceivedData receivedData = receive();
-                RequestDTO request = receivedData.getRequest();
                 InetAddress client = receivedData.getClient();
                 int port = receivedData.getPort();
                 requestProcessingPool.submit(() -> {
@@ -43,14 +42,15 @@ public class Receiver {
             }
         });
     }
-    private Response processRequest(ReceivedData received) {
+    private Object processRequest(ReceivedData received) {
         if (received.getRequest() instanceof PullingRequest) {
             return usersHandler.authorization((PullingRequest) received.getRequest());
         } else {
             if (userTokenPolice.verify(received)){
+                logger.info("start to process request");
                 return Server.serverHandlerRequestManager.getServerResponse(received);
             }else {
-                return new PullingResponse("",null);
+                return new PullingResponse("ahaha",null);
             }
         }
     }

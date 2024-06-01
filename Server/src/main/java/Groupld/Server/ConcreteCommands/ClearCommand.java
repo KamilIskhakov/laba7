@@ -5,17 +5,21 @@ import Groupld.Controler.RequestFactoryDTO.RequestDTO;
 import Groupld.Controler.ChannelClientServerUtil.ServerResponse;
 import Groupld.Server.Command;
 import Groupld.Server.Server;
+import Groupld.Server.Util.ReceivedData;
+import Groupld.Server.collectionmanagers.User;
+import lombok.NoArgsConstructor;
 
+@NoArgsConstructor
 public class ClearCommand implements Command {
-    private ClearRequestDTO request;
+    private ReceivedData receivedData;
 
-    public ClearCommand(RequestDTO request){
-        this.request = (ClearRequestDTO) request;
+    public ClearCommand(ReceivedData request){
+        this.receivedData = request;
     }
 
     @Override
     public String getDescription() {
-        return getName() + "очищает коллекцию";
+        return getName() + " очищает коллекцию";
     }
 
     @Override
@@ -25,8 +29,10 @@ public class ClearCommand implements Command {
 
     @Override
     public ServerResponse execute() {
-        /*Server.sqlCollectionManager.clear(request);*/
-        return null;/*new ServerResponse(getName(), request.getToken());*/
+        User user = new User();
+        user.setUsername(receivedData.getUsername());
+        Server.personRepository.deleteAllOwned(user.getUsername());
+        return new ServerResponse(getName(),receivedData.getRequest().getToken());
     }
 
 }

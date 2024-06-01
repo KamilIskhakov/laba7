@@ -13,8 +13,9 @@ public class PersonDAO implements GenericDAO<Person, Integer> {
     private final Logger logger;
 
     public PersonDAO(SessionFactory sessionFactory,Logger logger) {
+
         this.sessionFactory = sessionFactory;
-        this.logger = logger;
+        this.logger =  logger;
     }
 
     @Override

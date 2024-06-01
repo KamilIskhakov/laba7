@@ -6,14 +6,19 @@ package Groupld.Controler.CollectionObjects;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.Entity;
+
+import javax.persistence.Column;
+import javax.persistence.Embeddable;
 import java.io.Serializable;
 
 
-@Entity
-@Getter
+@Embeddable
 @Setter
+@Getter
 public class Coordinates implements Serializable {
+    @Column(name = "x_coord")
     private Float x;
+    @Column(name = "y_coord")
     private Float y;
 
     public Coordinates(CoordinatesBuilder coordinatesBuilder) {

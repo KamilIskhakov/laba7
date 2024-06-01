@@ -6,6 +6,9 @@ import Groupld.Controler.ChannelClientServerUtil.ServerResponse;
 public class UpdateResponse implements Response {
     @Override
     public void open(ServerResponse serverResponse) {
-        Client.terminalOutput.printlnWellDoneCommandMessage();
+        if (serverResponse.getMessage() != null){
+            Client.terminalOutput.println(serverResponse.getMessage());
+        }else{
+        Client.terminalOutput.printlnWellDoneCommandMessage();}
     }
 }

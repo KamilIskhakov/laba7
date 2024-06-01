@@ -1,7 +1,5 @@
 package Groupld.Server.collectionmanagers;
 
-import Groupld.Controler.CollectionObjects.Person;
-
 import javax.persistence.*;
 import java.util.List;
 
@@ -12,19 +10,19 @@ public class User {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Integer id;
 
-    @Column(name = "username", nullable = false, unique = true)
+    @Column(name = "username", nullable = false)
     private String username;
 
-    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Person> persons;
+    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<UserPerson> userPersons;
 
     // Getters and setters
     public Integer getId() { return id; }
     public void setId(Integer id) { this.id = id; }
 
     public String getUsername() { return username; }
-
     public void setUsername(String username) { this.username = username; }
-    public List<Person> getPersons() { return persons; }
-    public void setPersons(List<Person> persons) { this.persons = persons; }
+
+    public List<UserPerson> getUserPersons() { return userPersons; }
+    public void setUserPersons(List<UserPerson> userPersons) { this.userPersons = userPersons; }
 }

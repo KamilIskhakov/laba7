@@ -19,12 +19,10 @@ public class CommandRequestManager {
         request.put("show", new ShowRequest());
         request.put("add", new AddRequest());
         request.put("update", new UpdateRequest());
-        request.put("remove_by_ID", new RemoveByIdRequest());
         request.put("clear", new ClearRequest());
         request.put("execute_script", new ExecuteScriptRequest());
         request.put("head", new HeadRequest());
         request.put("remove_head", new RemoveHeadRequest());
-        request.put("group_counting_by_name", new GroupCountingByNameRequest());
         request.put("filter_greater_than_height", new FilterGreaterThanHeightRequest());
         request.put("filter_less_than_location", new FilterLessThanLocationRequest());
         request.put("exit", new ExitRequest());

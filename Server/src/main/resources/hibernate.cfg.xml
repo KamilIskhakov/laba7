@@ -1,15 +1,22 @@
 <?xml version='1.0' encoding='utf-8'?>
 <!DOCTYPE hibernate-configuration PUBLIC
-    "-//Hibernate/Hibernate Configuration DTD//EN"
-    "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+        "-//Hibernate/Hibernate Configuration DTD//EN"
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
   <session-factory>
-    <property name="connection.url"/>
-    <property name="connection.driver_class"/>
-    <!-- <property name="connection.username"/> -->
-    <!-- <property name="connection.password"/> -->
+    <!-- Параметры подключения к базе данных -->
+    <property name="hibernate.connection.url">jdbc:postgresql://localhost:5432/your_db_name</property>
+    <property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
+    <property name="hibernate.connection.username">your_db_username</property>
+    <property name="hibernate.connection.password">your_db_password</property>
 
-    <!-- DB schema will be updated if needed -->
-    <!-- <property name="hibernate.hbm2ddl.auto">update</property> -->
+    <!-- Автоматическое обновление схемы базы данных -->
+    <property name="hibernate.hbm2ddl.auto">update</property>
+
+    <!-- Диалект Hibernate для PostgreSQL -->
+    <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</property>
+
+    <!-- Показать SQL-запросы в логе -->
+    <property name="hibernate.show_sql">true</property>
   </session-factory>
 </hibernate-configuration>

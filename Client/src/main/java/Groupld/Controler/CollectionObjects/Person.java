@@ -1,21 +1,35 @@
 package Groupld.Controler.CollectionObjects;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.io.Serializable;
 import java.util.Date;
 
 // если используете джакарту для парсинга в xml, учтите, что порядок геттеров для нанесения ярлыков важен,
 // он такой же, как в xmltype, а также в том же порядке напишите сеттеры!
 
-public class Person implements Comparable<Location>, Serializable {
-    private String name; //no null
-    private Coordinates coordinates; //no null
+@Getter
+@Setter
+public class Person implements Comparable<Groupld.Controler.CollectionObjects.Location>, Serializable {
+
+    private Integer id;
+
+    private String name;
+
+    private Groupld.Controler.CollectionObjects.Coordinates coordinates;
+
     private Integer height;
-    private double weight; // > 0
+
+    private Double weight;
+
     private Color eyeColor;
-    private Country nationality; //no null
-    private Location location;
-    private String ownerUsername;
-    private Date creationDate; //no null
+
+    private Country nationality;
+
+    private Groupld.Controler.CollectionObjects.Location location;
+
+    private Date creationDate;
 
     public Person(PersonBuilder personBuilder) {
         name = personBuilder.name;
@@ -33,13 +47,13 @@ public class Person implements Comparable<Location>, Serializable {
     public static class PersonBuilder {
         //no null
         private String name; //no null
-        private Coordinates coordinates; //no null
+        private Groupld.Controler.CollectionObjects.Coordinates coordinates; //no null
         // no null
         private Integer height;
         private double weight; // > 0
         private Color eyeColor;
         private Country nationality; //no null
-        private Location location;
+        private Groupld.Controler.CollectionObjects.Location location;
 
         //constructor for required fields
         public PersonBuilder(String name, Coordinates coordinates, double weight, Country nationality) {
@@ -59,7 +73,7 @@ public class Person implements Comparable<Location>, Serializable {
             return this;
         }
 
-        public PersonBuilder setLocation(Location location) {
+        public PersonBuilder setLocation(Groupld.Controler.CollectionObjects.Location location) {
             this.location = location;
             return this;
         }
@@ -69,81 +83,7 @@ public class Person implements Comparable<Location>, Serializable {
         }
     }
 
-    public String getName() {
-        return name;
-    }
 
-    public Coordinates getCoordinates() {
-        return coordinates;
-    }
-
-    public Integer getHeight() {
-        return height;
-    }
-
-    public double getWeight() {
-        return weight;
-    }
-
-
-    public Color getEyeColor() {
-        return eyeColor;
-    }
-
-
-    public Country getNationality() {
-        return nationality;
-    }
-
-    public Location getLocation() {
-        return location;
-    }
-
-    public String getOwnerUsername(){
-        return ownerUsername;
-    }
-
-    public Date getCreationDate() {
-        return creationDate;
-    }
-
-
-    public int compareTo(Person personObj) {
-        return 1;
-
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setCoordinates(Coordinates coordinates) {
-        this.coordinates = coordinates;
-    }
-
-    public void setHeight(Integer height) {
-        this.height = height;
-    }
-
-    public void setWeight(double weight) {
-        this.weight = weight;
-    }
-
-    public void setEyeColor(Color eyeColor) {
-        this.eyeColor = eyeColor;
-    }
-
-    public void setNationality(Country nationality) {
-        this.nationality = nationality;
-    }
-
-    public void setLocation(Location location) {
-        this.location = location;
-    }
-
-    public void setOwnerUsername(String ownerUsername) {
-        this.ownerUsername = ownerUsername;
-    }
 
     public String toString() {
         String info = "";
@@ -156,13 +96,8 @@ public class Person implements Comparable<Location>, Serializable {
         info += "\n Цвет глаз: " + eyeColor;
         info += "\n Страна проживания: " + nationality;
         info += "\n Местоположение: " + location;
-        info += "\n создатель: " + ownerUsername;
+        info += "\n id: " + id;
         return info;
-    }
-
-
-    public void setCreationDate(Date creationDate) {
-        this.creationDate = creationDate;
     }
 
 
