@@ -4,7 +4,6 @@ import Groupld.Controler.PullingRequest;
 import Groupld.Controler.PullingResponse;
 import Groupld.Controler.RequestFactoryDTO.RequestDTO;
 import Groupld.Controler.ChannelClientServerUtil.Serializer;
-import Groupld.Controler.Response;
 import Groupld.Server.Server;
 import org.apache.logging.log4j.Logger;
 

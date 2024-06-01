@@ -1,10 +1,11 @@
 package Groupld.Server.collectionmanagers;
 
 import Groupld.Controler.CollectionObjects.Person;
+import Groupld.Server.collectionmanagers.DAO.PersonDAO;
+import Groupld.Server.collectionmanagers.DAO.UserPersonDAO;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
@@ -18,7 +19,7 @@ public class PersonRepository {
         this.userPersonDAO = userPersonDAO;
     }
 
-    public void savePerson(Person person, User user) {
+    public synchronized void savePerson(Person person, User user) {
         person.setCreationDate(new Date());
         personDAO.save(person);
         UserPerson userPerson = new UserPerson();
@@ -27,15 +28,15 @@ public class PersonRepository {
         userPersonDAO.save(userPerson);
     }
 
-    public Person findPersonById(Integer id) {
+    public synchronized Person findPersonById(Integer id) {
         return personDAO.findById(id);
     }
 
-    public List<Person> findAllPersons() {
+    public synchronized List<Person> findAllPersons() {
         return personDAO.findAll();
     }
 
-    public void updatePerson(Person person, User user) {
+    public synchronized void updatePerson(Person person, User user) {
         List<UserPerson> userPersons = userPersonDAO.findByUser(user);
         boolean isOwnedByUser = userPersons.stream()
                 .anyMatch(userPerson -> userPerson.getPerson().getId().equals(person.getId()));
@@ -48,10 +49,9 @@ public class PersonRepository {
         }
     }
 
-    public void deletePerson( User user) {
+    public synchronized void deletePerson( User user) {
         // Получаем все объекты UserPerson для данного пользователя
         List<UserPerson> userPersons = userPersonDAO.findByUser(user);
-
 
         if (true) {
             // Удаляем объект Person
@@ -62,14 +62,14 @@ public class PersonRepository {
         }
     }
 
-    public List<Person> findPersonsByUser(User user) {
+    public synchronized List<Person> findPersonsByUser(User user) {
         List<UserPerson> userPersons = userPersonDAO.findByUser(user);
         return userPersons.stream()
                 .map(UserPerson::getPerson)
                 .toList();
     }
 
-    public boolean deleteAllOwned(String username) {
+    public synchronized boolean deleteAllOwned(String username) {
         Transaction transaction = null;
         try (Session session = personDAO.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
@@ -103,13 +103,13 @@ public class PersonRepository {
     }
 
 
-    public List<Person> sortPersonsByHeight(User user) {
+    public synchronized List<Person> sortPersonsByHeight(User user) {
         List<UserPerson> userPersons = userPersonDAO.findByUser(user);
         return userPersons.stream()
                 .map(UserPerson::getPerson)
                 .sorted(Comparator.comparingInt(Person::getHeight)).toList();
     }
-    public List<Person> sortPersonsByLocation(User user) {
+    public synchronized List<Person> sortPersonsByLocation(User user) {
         List<UserPerson> userPersons = userPersonDAO.findByUser(user);
         return userPersons.stream()
                 .map(UserPerson::getPerson)

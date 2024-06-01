@@ -1,6 +1,8 @@
-package Groupld.Server.collectionmanagers;
+package Groupld.Server.collectionmanagers.DAO;
 
 import Groupld.Server.Server;
+import Groupld.Server.collectionmanagers.User;
+import Groupld.Server.collectionmanagers.UserPerson;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -38,7 +40,7 @@ public class UserPersonDAO {
             throw e;
         }
     }
-    public List<UserPerson> findByUser(User user) {
+    public synchronized List<UserPerson> findByUser(User user) {
         try (Session session = sessionFactory.openSession()) {
             return session.createQuery("from UserPerson where user.username = :user", UserPerson.class)
                     .setParameter("user", user.getUsername())
@@ -46,7 +48,7 @@ public class UserPersonDAO {
         }
     }
 
-    public void delete(UserPerson userPerson) {
+    public synchronized void delete(UserPerson userPerson) {
         Transaction transaction = null;
         try (Session session = sessionFactory.openSession()) {
             Server.LOGGER.info("Starting transaction for deleting UserPerson with ID: " + userPerson.getId());

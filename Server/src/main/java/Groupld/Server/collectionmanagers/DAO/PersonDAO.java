@@ -1,4 +1,4 @@
-package Groupld.Server.collectionmanagers;
+package Groupld.Server.collectionmanagers.DAO;
 
 import Groupld.Controler.CollectionObjects.Person;
 import org.apache.logging.log4j.Logger;

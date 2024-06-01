@@ -7,6 +7,8 @@ import Groupld.Controler.CollectionObjects.Person;
 import Groupld.Controler.Exceptions.IllegalAddressException;
 import Groupld.Server.Util.*;
 import Groupld.Server.collectionmanagers.*;
+import Groupld.Server.collectionmanagers.DAO.PersonDAO;
+import Groupld.Server.collectionmanagers.DAO.UserPersonDAO;
 import Groupld.Server.collectionmanagers.User;
 import Groupld.Server.usersmanagers.SQLUserManager;
 import Groupld.Server.usersmanagers.tablecreators.SQLUserTableCreator;
@@ -26,7 +28,7 @@ import java.sql.SQLException;
 import java.util.Locale;
 import java.util.Scanner;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.locks.ReentrantLock;
 
 public final class Server {
@@ -42,11 +44,10 @@ public final class Server {
     private static final int INDEX_DB_USERNAME = 5;
     private static final int INDEX_DB_PASSWORD = 6;
     private static final String USER_TABLE_NAME = "users_authorization";
-    private static final String DATA_TABLE_NAME = "people";
     private static final Scanner SCANNER = new Scanner(System.in);
-    private static final ExecutorService REQUEST_READING_POOL = Executors.newFixedThreadPool(10);
-    private static final ExecutorService REQUEST_PROCESSING_POOL = Executors.newCachedThreadPool();
-    private static final ExecutorService RESPONSE_SENDING_POOL = Executors.newCachedThreadPool();
+    private static final ExecutorService REQUEST_READING_POOL = new ForkJoinPool();
+    private static final ExecutorService REQUEST_PROCESSING_POOL = new ForkJoinPool();
+    private static final ExecutorService RESPONSE_SENDING_POOL = new ForkJoinPool();
     public static ServerHandlerRequestManager serverHandlerRequestManager;
     public static  PersonRepository personRepository;
 
@@ -67,7 +68,6 @@ public final class Server {
                 final String dataBaseUsername = args[INDEX_DB_USERNAME];
                 final String dataBasePassword = args[INDEX_DB_PASSWORD];
 
-                // Hibernate configuration setup
                 Configuration configuration = new Configuration();
                 configuration.setProperty("hibernate.connection.url", dataBaseUrl);
                 configuration.setProperty("hibernate.connection.username", dataBaseUsername);
@@ -76,14 +76,11 @@ public final class Server {
                 configuration.setProperty("hibernate.hbm2ddl.auto", "update"); // Or other schema management option
                 configuration.setProperty("hibernate.show_sql", "true");
 
-
-                // Add annotated classes
                 configuration.addAnnotatedClass(Person.class);
                 configuration.addAnnotatedClass(Location.class);
                 configuration.addAnnotatedClass(Coordinates.class);
                 configuration.addAnnotatedClass(User.class);
                 configuration.addAnnotatedClass(UserPerson.class);
-                // Add other entity classes as needed
 
                 ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()
                         .applySettings(configuration.getProperties()).build();
@@ -98,7 +95,7 @@ public final class Server {
                 try (Connection connection = DriverManager.getConnection(dataBaseUrl, dataBaseUsername, dataBasePassword);
                      DatagramSocket server = new DatagramSocket(address)) {
                     LOGGER.info(() -> "Opened datagram socket on the address " + address);
-                    // Initialize your managers and handlers using Hibernate session factory
+
                     SQLUserTableCreator sqlUserTableCreator = new SQLUserTableCreator(connection, USER_TABLE_NAME, LOGGER);
                     SQLUserManager sqlUserManager = new SQLUserManager(new ReentrantLock(), sqlUserTableCreator.init(), connection, USER_TABLE_NAME, LOGGER);
                     JWTService jwtService = new JWTService();
